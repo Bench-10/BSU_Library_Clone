@@ -41,6 +41,7 @@ class _MyAppState extends State<mainApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 247, 250, 252),
       appBar: _buildAppBar(),
       drawer: _buildDrawer(),
       body: pages[currentPageIndex], 

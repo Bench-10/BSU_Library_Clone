@@ -14,22 +14,211 @@ class AccountSettingsPage extends StatefulWidget{
 class _MyAppState extends State<AccountSettingsPage> {
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(Icons.settings, size: 80, color: Colors.red),
-          SizedBox(height: 20),
           Text(
-            'Account Settings',
-            style: GoogleFonts.poppins(fontSize: 24, fontWeight: FontWeight.bold),
+            'Library System',
+            style: GoogleFonts.poppins(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+            )
           ),
-          Text(
-            'Manage your account preferences',
-            style: GoogleFonts.poppins(fontSize: 16, color: Colors.grey),
+
+          SizedBox(height: 7,),
+
+          Container(
+            height: 30,
+            
+            child: Row(
+              children: [
+                Icon(Icons.settings, size: 30, color: Colors.red),
+
+                Text(
+                  'Account Settings',
+                  style: GoogleFonts.poppins(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500
+                  )
+                )
+
+              ],
+            ),
           ),
+
+          SizedBox(height: 45),
+
+          Container(
+            padding: EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(8))
+            ),
+            child: Column(
+                children: [
+                  Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 50,
+                        backgroundImage: AssetImage('assets/images/profile.jpg'),
+                      ),
+
+                      SizedBox(width: 20,),
+
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Text(
+                              'DELA LUNA, BENCH CHRISTIAN A.',
+                              style: GoogleFonts.poppins(
+                                fontSize: 26,
+                                fontWeight: FontWeight.w400,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 2,
+                            ),
+
+                            SizedBox(height: 10,),
+
+                            Row(
+                              children: [
+                                Text(
+                                  'Sr-code:',
+                                  style: GoogleFonts.poppins(
+                                    fontWeight: FontWeight.w600
+                                  ),
+                                ),
+
+                                SizedBox(width: 10,),
+
+                                Text(
+                                  '22-04617',
+                                  style: GoogleFonts.poppins(
+                                    fontWeight: FontWeight.w600
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      )
+
+
+
+                    ],
+                  ),
+
+                  SizedBox(height: 70,),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Full Name',
+                        style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16
+                        ),
+                      ),
+
+                      Text(
+                        'Bench Christian A. Dela Luna',
+                        style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 13
+                        ),
+                      ),
+
+                     
+                      
+                    ],
+                  ),
+
+                  SizedBox(height: 30,),
+
+                  Divider(
+                    color: Colors.black,  
+                    thickness: 1, 
+                  ),
+
+                  SizedBox(height: 30,),
+
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Email Address',
+                        style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16
+                        ),
+                      ),
+
+                      Text(
+                        '22-04617@g.batstate-u.edu.ph',
+                        style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 13
+                        ),
+                      ),
+
+              
+                      
+                    ],
+                  ),
+
+                  SizedBox(height: 30,),
+
+                  Divider(
+                    color: Colors.black,  
+                    thickness: 1, 
+                  ),
+
+                  SizedBox(height: 30,),
+
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Contact Info',
+                        style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16
+                        ),
+                      ),
+
+                      Text(
+                        '0935426375564',
+                        style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 13
+                        ),
+                      ),
+
+              
+                      
+                    ],
+                  ),
+
+                  SizedBox(height: 30,),
+
+
+
+                  //NEXT
+
+
+
+                ],
+            )
+          )
+
         ],
       ),
+
     );
   }
 }
