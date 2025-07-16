@@ -69,6 +69,7 @@ class _MyAppState extends State<AccountSettingsPage> {
 
                       Expanded(
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               'DELA LUNA, BENCH CHRISTIAN A.',
