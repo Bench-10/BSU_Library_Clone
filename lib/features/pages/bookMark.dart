@@ -26,7 +26,7 @@ class _MyAppState extends State<BookMarksPage> {
             )
           ),
 
-          SizedBox(height: 7,),
+          SizedBox(height: 8,),
 
           SizedBox(
             height: 30,
