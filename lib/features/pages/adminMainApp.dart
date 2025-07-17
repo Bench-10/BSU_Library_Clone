@@ -130,13 +130,18 @@ class _AdminMainAppState extends State<AdminMainApp> {
     String adminEmail = userData?['email'] ?? 'admin@batstate-u.edu.ph';
 
     return Drawer(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(0),
+          bottomRight: Radius.circular(0)
+        ),
+      ),
+      backgroundColor: Color(0xFF1E2125),
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
           DrawerHeader(
-            decoration: BoxDecoration(
-              color: Colors.red,
-            ),
+
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
