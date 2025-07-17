@@ -1,5 +1,3 @@
-import 'package:firebase_core/firebase_core.dart';
-import '../../firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../auth/login.dart';
@@ -8,19 +6,6 @@ import './homePage.dart';
 import './bookMark.dart';
 import './onlineResourcesPage.dart';
 import './accountSettingsPage.dart';
-
-
-void main() async{
-  await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-  );
-  runApp(
-    MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: const mainApp(),
-  ),
-  );
-}
 
 class mainApp extends StatefulWidget {
   const mainApp({super.key});
@@ -34,14 +19,19 @@ class _MyAppState extends State<mainApp> {
   int selectedIndex = 0;
   int currentPageIndex = 0; 
   
-  
-  final List<Widget> pages = [
-    HomePage(),
-    MyActivityPage(),
-    BookMarksPage(),
-    OnlineResourcesPage(),
-    AccountSettingsPage(),
-  ];
+  late final List<Widget> pages;
+
+  @override
+  void initState() {
+    super.initState();
+    pages = [
+      HomePage(),
+      MyActivityPage(),
+      BookMarksPage(),
+      OnlineResourcesPage(),
+      AccountSettingsPage(),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {

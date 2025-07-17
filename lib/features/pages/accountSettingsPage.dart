@@ -29,7 +29,7 @@ class _MyAppState extends State<AccountSettingsPage> {
 
           SizedBox(height: 7,),
 
-          Container(
+          SizedBox(
             height: 30,
             
             child: Row(

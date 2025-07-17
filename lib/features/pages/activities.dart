@@ -29,7 +29,7 @@ class _MyAppState extends State<MyActivityPage> {
 
           SizedBox(height: 7,),
 
-          Container(
+          SizedBox(
             height: 30,
             
             child: Row(
