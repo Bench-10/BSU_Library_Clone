@@ -150,4 +150,94 @@ class BookService {
       return [];
     }
   }
+
+  // ======= ADMIN FUNCTIONS =======
+  
+  // 8. Add a new book (Admin only)
+  static Future<Map<String, dynamic>> addBook({
+    required String author,
+    required String title,
+    required String subject,
+    required String series,
+    required String campus,
+    required String materialStyle,
+  }) async {
+    try {
+      // Add the book to Firestore (using the same collection as existing books)
+      DocumentReference bookDoc = await _booksCollection.add({
+        'author': author.trim(),
+        'title': title.trim(),
+        'subject': subject.trim(),
+        'series': series.trim(),
+        'campus': campus.trim(),
+        'material_type': materialStyle.trim(), // Using material_type to match existing schema
+        'created_at': FieldValue.serverTimestamp(),
+        'updated_at': FieldValue.serverTimestamp(),
+      });
+
+      return {
+        'success': true,
+        'message': 'Book added successfully',
+        'book_id': bookDoc.id
+      };
+    } catch (e) {
+      return {
+        'success': false,
+        'message': 'Error adding book: $e'
+      };
+    }
+  }
+
+  // 9. Update an existing book (Admin only)
+  static Future<Map<String, dynamic>> updateBook({
+    required String bookId,
+    String? author,
+    String? title,
+    String? subject,
+    String? series,
+    String? campus,
+    String? materialStyle,
+  }) async {
+    try {
+      Map<String, dynamic> updates = {
+        'updated_at': FieldValue.serverTimestamp(),
+      };
+      
+      if (author != null) updates['author'] = author.trim();
+      if (title != null) updates['title'] = title.trim();
+      if (subject != null) updates['subject'] = subject.trim();
+      if (series != null) updates['series'] = series.trim();
+      if (campus != null) updates['campus'] = campus.trim();
+      if (materialStyle != null) updates['material_type'] = materialStyle.trim();
+      
+      await _booksCollection.doc(bookId).update(updates);
+      
+      return {
+        'success': true,
+        'message': 'Book updated successfully'
+      };
+    } catch (e) {
+      return {
+        'success': false,
+        'message': 'Error updating book: $e'
+      };
+    }
+  }
+
+  // 10. Delete a book (Admin only)
+  static Future<Map<String, dynamic>> deleteBook(String bookId) async {
+    try {
+      await _booksCollection.doc(bookId).delete();
+      
+      return {
+        'success': true,
+        'message': 'Book deleted successfully'
+      };
+    } catch (e) {
+      return {
+        'success': false,
+        'message': 'Error deleting book: $e'
+      };
+    }
+  }
 }

@@ -43,7 +43,7 @@ class AuthService {
         };
       }
 
-      // Check if SR code already exists
+      
       QuerySnapshot existingSrCode = await _usersCollection
           .where('sr_code', isEqualTo: srCode)
           .get();
@@ -79,13 +79,13 @@ class AuthService {
     }
   }
 
-  // Login user
+  // Login user (works for both students and admin)
   static Future<Map<String, dynamic>> loginUser({
     required String email,
     required String password,
   }) async {
     try {
-      String hashedPassword = _hashPassword(password);
+      String hashedPassword = _hashPassword(password); 
       
       QuerySnapshot userQuery = await _usersCollection
           .where('email', isEqualTo: email.toLowerCase())
@@ -122,6 +122,28 @@ class AuthService {
         'message': 'Error during login: $e'
       };
     }
+  }
+
+  // Check if current user is admin
+  static bool isAdmin() {
+    if (!isLoggedIn()) return false;
+    return _currentUserData?['user_type'] == 'admin';
+  }
+
+  // Admin login (same as regular login but with admin check)
+  static Future<Map<String, dynamic>> adminLogin({
+    required String email,
+    required String password,
+  }) async {
+    
+    
+    Map<String, dynamic> result = await loginUser(
+      email: email,
+      password: password,
+    );
+
+  
+    return result;
   }
 
   // Logout user

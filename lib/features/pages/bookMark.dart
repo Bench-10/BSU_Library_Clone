@@ -45,7 +45,6 @@ class _MyAppState extends State<BookMarksPage> {
         isLoading = false;
       });
     } catch (e) {
-      print('🔍 Debug: Error loading bookmarks: $e');
       setState(() {
         isLoading = false;
       });

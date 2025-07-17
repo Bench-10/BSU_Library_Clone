@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../pages/mainApp.dart';
 import '../../services/auth_service.dart';
+import 'adminLogin.dart';
+import '../../utils/admin_debug_helper.dart';
 
 void main() {
   runApp(const Login());
@@ -152,29 +155,27 @@ class _MyHomePageState extends State<MyHomePage> {
         // title: Text(...),
       ),
       body: Center(
-          
+        child: Center(
           child: Container(
-            margin: EdgeInsets.only(left: 20, right: 20), // 20 pixels on left and right
-            padding: EdgeInsets.symmetric(horizontal: 35 , vertical: 30),
+            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            padding: EdgeInsets.symmetric(horizontal: 35, vertical: 30),
             decoration: BoxDecoration(
               color: const Color.fromARGB(255, 255, 255, 255),
               borderRadius: BorderRadius.all(Radius.circular(15)),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.2), // shadow color
-                  spreadRadius: 2,  // how wide the shadow spreads
-                  blurRadius: 5,    // how soft the shadow is
-                  offset: Offset(2, 3), // position: x, y (right & down)
+                  color: Colors.black.withOpacity(0.2),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: Offset(2, 3),
                 )
               ]
             ),
-            
             width: 420,
-            constraints: BoxConstraints(
-              maxHeight: _isLoginMode ? 460 : 650  // Taller for registration form
-            ),
+    
       
             child: Column(
+              mainAxisSize: MainAxisSize.min, 
               children: [
                 Text(_isLoginMode ? 'LOGIN' : 'REGISTER', 
                 style: GoogleFonts.poppins(
@@ -185,9 +186,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   )
                 ),
 
-                SizedBox(height: 20),
+                SizedBox(height: 15),
 
-                // Toggle buttons for Login/Register
+    
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -227,7 +228,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ],
                 ),
 
-                SizedBox(height: 20),
+                SizedBox(height: 15),
 
                 Text(_isLoginMode ? '* Please login your credentials' : '* Please fill in your details',
                  style: GoogleFonts.poppins(
@@ -237,213 +238,320 @@ class _MyHomePageState extends State<MyHomePage> {
                  ),
                 ),
 
-                SizedBox(height: 30),
+                SizedBox(height: 25),
 
-                SingleChildScrollView(
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      children: [
-                        // Full Name field (only for registration)
-                        if (!_isLoginMode) ...[
-                          TextFormField(
-                            controller: _fullNameController,
-                            style: TextStyle(
-                              color: Colors.black, 
-                              fontSize: 14,
-                            ),
-                            decoration: InputDecoration(
-                              labelText: 'Full Name',
-                              border: OutlineInputBorder(),
-                            ),
-                            validator: (value) {
-                              if (!_isLoginMode && (value == null || value.isEmpty)) {
-                                return 'Please enter your full name';
-                              }
-                              return null;
-                            },
-                          ),
-                          SizedBox(height: 20),
-                        ],
-
-                        // SR Code field (only for registration)
-                        if (!_isLoginMode) ...[
-                          TextFormField(
-                            controller: _srCodeController,
-                            style: TextStyle(
-                              color: Colors.black, 
-                              fontSize: 14,
-                            ),
-                            decoration: InputDecoration(
-                              labelText: 'SR Code (e.g., 20-12345)',
-                              border: OutlineInputBorder(),
-                            ),
-                            validator: (value) {
-                              if (!_isLoginMode && (value == null || value.isEmpty)) {
-                                return 'Please enter your SR code';
-                              }
-                              if (!_isLoginMode && value != null && !RegExp(r'^\d{2}-\d{5}$').hasMatch(value)) {
-                                return 'SR code format: XX-XXXXX (e.g., 20-12345)';
-                              }
-                              return null;
-                            },
-                          ),
-                          SizedBox(height: 20),
-                        ],
-
-                        // Email field (for both login and registration)
+                // Form with better spacing
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      // Full Name field (only for registration)
+                      if (!_isLoginMode) ...[
                         TextFormField(
-                          controller: _emailController,
+                          controller: _fullNameController,
                           style: TextStyle(
                             color: Colors.black, 
                             fontSize: 14,
                           ),
                           decoration: InputDecoration(
-                            labelText: 'Enter Email',
+                            labelText: 'Full Name',
                             border: OutlineInputBorder(),
+                            contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                           ),
                           validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter your email';
-                            }
-                            if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-                              return 'Please enter a valid email';
+                            if (!_isLoginMode && (value == null || value.isEmpty)) {
+                              return 'Please enter your full name';
                             }
                             return null;
                           },
                         ),
+                        SizedBox(height: 16),
+                      ],
 
-                        SizedBox(height: 20),
-
-                        // Contact Info field (only for registration)
-                        if (!_isLoginMode) ...[
-                          TextFormField(
-                            controller: _contactInfoController,
-                            style: TextStyle(
-                              color: Colors.black, 
-                              fontSize: 14,
-                            ),
-                            decoration: InputDecoration(
-                              labelText: 'Contact Info (Phone Number)',
-                              border: OutlineInputBorder(),
-                            ),
-                            validator: (value) {
-                              if (!_isLoginMode && (value == null || value.isEmpty)) {
-                                return 'Please enter your contact information';
-                              }
-                              return null;
-                            },
-                          ),
-                          SizedBox(height: 20),
-                        ],
-
-                        // Password field (for both login and registration)
+                      // SR Code field (only for registration)
+                      if (!_isLoginMode) ...[
                         TextFormField(
-                          controller: _passwordController,
+                          controller: _srCodeController,
+                          style: TextStyle(
+                            color: Colors.black, 
+                            fontSize: 14,
+                          ),
+                          decoration: InputDecoration(
+                            labelText: 'SR Code (e.g., 20-12345)',
+                            border: OutlineInputBorder(),
+                            contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                          ),
+                          validator: (value) {
+                            if (!_isLoginMode && (value == null || value.isEmpty)) {
+                              return 'Please enter your SR code';
+                            }
+                            if (!_isLoginMode && value != null && !RegExp(r'^\d{2}-\d{5}$').hasMatch(value)) {
+                              return 'SR code format: XX-XXXXX (e.g., 20-12345)';
+                            }
+                            return null;
+                          },
+                        ),
+                        SizedBox(height: 16),
+                      ],
+
+                      // Email field (for both login and registration)
+                      TextFormField(
+                        controller: _emailController,
+                        style: TextStyle(
+                          color: Colors.black, 
+                          fontSize: 14,
+                        ),
+                        decoration: InputDecoration(
+                          labelText: 'Enter Email',
+                          border: OutlineInputBorder(),
+                          contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your email';
+                          }
+                          if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                            return 'Please enter a valid email';
+                          }
+                          return null;
+                        },
+                      ),
+
+                      SizedBox(height: 16),
+
+                      // Contact Info field (only for registration)
+                      if (!_isLoginMode) ...[
+                        TextFormField(
+                          controller: _contactInfoController,
+                          style: TextStyle(
+                            color: Colors.black, 
+                            fontSize: 14,
+                          ),
+                          decoration: InputDecoration(
+                            labelText: 'Contact Info (Phone Number)',
+                            border: OutlineInputBorder(),
+                            contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                          ),
+                          validator: (value) {
+                            if (!_isLoginMode && (value == null || value.isEmpty)) {
+                              return 'Please enter your contact information';
+                            }
+                            return null;
+                          },
+                        ),
+                        SizedBox(height: 16),
+                      ],
+
+                      // Password field (for both login and registration)
+                      TextFormField(
+                        controller: _passwordController,
+                        obscureText: true,
+                        style: TextStyle(
+                          color: Colors.black, 
+                          fontSize: 14,
+                        ),
+                        decoration: InputDecoration(
+                          labelText: 'Password',
+                          border: OutlineInputBorder(),
+                          contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter a password';
+                          }
+                          if (!_isLoginMode && value.length < 6) {
+                            return 'Password must be at least 6 characters';
+                          }
+                          return null;
+                        },
+                      ),
+
+                      // Confirm Password field (only for registration)
+                      if (!_isLoginMode) ...[
+                        SizedBox(height: 16),
+                        TextFormField(
+                          controller: _confirmPasswordController,
                           obscureText: true,
                           style: TextStyle(
                             color: Colors.black, 
                             fontSize: 14,
                           ),
                           decoration: InputDecoration(
-                            labelText: 'Password',
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.blue),
-                            ),
+                            labelText: 'Confirm Password',
+                            border: OutlineInputBorder(),
+                            contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                           ),
                           validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter a password';
+                            if (!_isLoginMode && (value == null || value.isEmpty)) {
+                              return 'Please confirm your password';
                             }
-                            if (!_isLoginMode && value.length < 6) {
-                              return 'Password must be at least 6 characters';
+                            if (!_isLoginMode && value != _passwordController.text) {
+                              return 'Passwords do not match';
                             }
                             return null;
                           },
                         ),
-
-                        // Confirm Password field (only for registration)
-                        if (!_isLoginMode) ...[
-                          SizedBox(height: 20),
-                          TextFormField(
-                            controller: _confirmPasswordController,
-                            obscureText: true,
-                            style: TextStyle(
-                              color: Colors.black, 
-                              fontSize: 14,
-                            ),
-                            decoration: InputDecoration(
-                              labelText: 'Confirm Password',
-                              border: OutlineInputBorder(),
-                            ),
-                            validator: (value) {
-                              if (!_isLoginMode && (value == null || value.isEmpty)) {
-                                return 'Please confirm your password';
-                              }
-                              if (!_isLoginMode && value != _passwordController.text) {
-                                return 'Passwords do not match';
-                              }
-                              return null;
-                            },
-                          ),
-                        ],
                       ],
-                    ),
+                    ],
                   ),
                 ),
 
-                SizedBox(height: 35),
+                SizedBox(height: 30),
 
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.redAccent,
-                      foregroundColor: Colors.white, 
-                      padding: EdgeInsets.symmetric(vertical: 18, horizontal: 30), 
-                      shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12), 
-                  
-                    )
-                  
-                  
-                  ),
-                  onPressed: _isLoading ? null : () async {
-                    if (_formKey.currentState!.validate()) {
-                      setState(() {
-                        _isLoading = true;
-                      });
+                // Submit Button with better styling
+                SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.redAccent,
+                        foregroundColor: Colors.white, 
+                        shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12), 
+                      ),
+                      elevation: 2,
+                    ),
+                    onPressed: _isLoading ? null : () async {
+                      if (_formKey.currentState!.validate()) {
+                        setState(() {
+                          _isLoading = true;
+                        });
 
-                      Map<String, dynamic> result;
-                      
-                      if (_isLoginMode) {
-                        // Perform login
-                        result = await AuthService.loginUser(
-                          email: _emailController.text.trim(),
-                          password: _passwordController.text.trim(),
-                        );
-                      } else {
-                        // Perform registration
-                        result = await AuthService.registerUser(
-                          email: _emailController.text.trim(),
-                          password: _passwordController.text.trim(),
-                          fullName: _fullNameController.text.trim(),
-                          srCode: _srCodeController.text.trim(),
-                          contactInfo: _contactInfoController.text.trim(),
-                        );
-                      }
-
-                      setState(() {
-                        _isLoading = false;
-                      });
-
-                      if (result['success']) {
-                        // Clear form after successful operation
-                        _clearForm();
-
+                        Map<String, dynamic> result;
+                        
                         if (_isLoginMode) {
-                          // Show login success dialog and navigate
+                         
+                          result = await AuthService.loginUser(
+                            email: _emailController.text.trim(),
+                            password: _passwordController.text.trim(),
+                          );
+
+                        } else {
+                      
+                          result = await AuthService.registerUser(
+                            email: _emailController.text.trim(),
+                            password: _passwordController.text.trim(),
+                            fullName: _fullNameController.text.trim(),
+                            srCode: _srCodeController.text.trim(),
+                            contactInfo: _contactInfoController.text.trim(),
+                          );
+                        }
+
+                        setState(() {
+                          _isLoading = false;
+                        });
+
+                        if (result['success']) {
+                          // Clear form after successful operation
+                          _clearForm();
+
+                          if (_isLoginMode) {
+                            // Show login success dialog and navigate
+                            showDialog(
+                              context: context,
+                              barrierDismissible: true,
+                              builder: (BuildContext dialogContext) {
+                                return AlertDialog(
+                                  backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  title: Text(
+                                    'Success!',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                  content: Text(
+                                    'Login successful! Welcome back.',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                  actions: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.of(dialogContext).pop();
+                                        Navigator.pushReplacement(
+                                          context,
+                                          PageRouteBuilder(
+                                            pageBuilder: (context, animation, secondaryAnimation) => mainApp(),
+                                            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                                              const begin = Offset(1.0, 0.0); 
+                                              const end = Offset.zero;
+                                              const curve = Curves.ease;
+                                              var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+                                              return SlideTransition(
+                                                position: animation.drive(tween),
+                                                child: child,
+                                              );
+                                            },
+                                            transitionDuration: Duration(milliseconds: 500), 
+                                          ),
+                                        );
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: const Color.fromARGB(255, 230, 12, 12),
+                                        foregroundColor: Colors.white,
+                                      ),
+                                      child: Text('OK'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          } else {
+                            // Show registration success dialog and switch to login
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext dialogContext) {
+                                return AlertDialog(
+                                  backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  title: Text(
+                                    'Registration Successful!',
+                                    style: TextStyle(
+                                      color: Colors.green,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                  content: Text(
+                                    'Your account has been created successfully. Please login with your credentials.',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                  actions: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.of(dialogContext).pop();
+                                        setState(() {
+                                          _isLoginMode = true;
+                                          _clearForm();
+                                        });
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.green,
+                                        foregroundColor: Colors.white,
+                                      ),
+                                      child: Text('Login Now'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          }
+                        } else {
+                          // Show error dialog
                           showDialog(
                             context: context,
-                            barrierDismissible: true,
                             builder: (BuildContext dialogContext) {
                               return AlertDialog(
                                 backgroundColor: const Color.fromARGB(255, 255, 255, 255),
@@ -451,15 +559,15 @@ class _MyHomePageState extends State<MyHomePage> {
                                   borderRadius: BorderRadius.circular(15),
                                 ),
                                 title: Text(
-                                  'Success!',
+                                  _isLoginMode ? 'Login Failed' : 'Registration Failed',
                                   style: TextStyle(
-                                    color: Colors.black,
+                                    color: Colors.red,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 18,
                                   ),
                                 ),
                                 content: Text(
-                                  'Login successful! Welcome back.',
+                                  result['message'] ?? 'Unknown error occurred',
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 14,
@@ -467,28 +575,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                 ),
                                 actions: [
                                   ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.of(dialogContext).pop();
-                                      Navigator.pushReplacement(
-                                        context,
-                                        PageRouteBuilder(
-                                          pageBuilder: (context, animation, secondaryAnimation) => mainApp(),
-                                          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                                            const begin = Offset(1.0, 0.0); 
-                                            const end = Offset.zero;
-                                            const curve = Curves.ease;
-                                            var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-                                            return SlideTransition(
-                                              position: animation.drive(tween),
-                                              child: child,
-                                            );
-                                          },
-                                          transitionDuration: Duration(milliseconds: 500), 
-                                        ),
-                                      );
-                                    },
+                                    onPressed: () => Navigator.of(dialogContext).pop(),
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: const Color.fromARGB(255, 230, 12, 12),
+                                      backgroundColor: Colors.red,
                                       foregroundColor: Colors.white,
                                     ),
                                     child: Text('OK'),
@@ -497,115 +586,62 @@ class _MyHomePageState extends State<MyHomePage> {
                               );
                             },
                           );
-                        } else {
-                          // Show registration success dialog and switch to login
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext dialogContext) {
-                              return AlertDialog(
-                                backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                                title: Text(
-                                  'Registration Successful!',
-                                  style: TextStyle(
-                                    color: Colors.green,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                  ),
-                                ),
-                                content: Text(
-                                  'Your account has been created successfully. Please login with your credentials.',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                  ),
-                                ),
-                                actions: [
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.of(dialogContext).pop();
-                                      setState(() {
-                                        _isLoginMode = true;
-                                        _clearForm();
-                                      });
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.green,
-                                      foregroundColor: Colors.white,
-                                    ),
-                                    child: Text('Login Now'),
-                                  ),
-                                ],
-                              );
-                            },
-                          );
                         }
-                      } else {
-                        // Show error dialog
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext dialogContext) {
-                            return AlertDialog(
-                              backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              title: Text(
-                                _isLoginMode ? 'Login Failed' : 'Registration Failed',
-                                style: TextStyle(
-                                  color: Colors.red,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18,
-                                ),
-                              ),
-                              content: Text(
-                                result['message'] ?? 'Unknown error occurred',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                ),
-                              ),
-                              actions: [
-                                ElevatedButton(
-                                  onPressed: () => Navigator.of(dialogContext).pop(),
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.red,
-                                    foregroundColor: Colors.white,
-                                  ),
-                                  child: Text('OK'),
-                                ),
-                              ],
-                            );
-                          },
-                        );
                       }
-                    }
-                  },
+                    },
 
-                  child: _isLoading 
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                    child: _isLoading 
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                              ),
                             ),
+                            SizedBox(width: 10),
+                            Text(_isLoginMode ? 'Logging in...' : 'Registering...'),
+                          ],
+                        )
+                      : Text(
+                          _isLoginMode ? 'Login' : 'Register',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
                           ),
-                          SizedBox(width: 10),
-                          Text(_isLoginMode ? 'Logging in...' : 'Registering...'),
-                        ],
-                      )
-                    : Text(_isLoginMode ? 'Login' : 'Register'),
-                )
+                        ),
+                  ),
+                ),
+
+                SizedBox(height: 20),
+
+                // Admin Login Link
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => AdminLogin()),
+                    );
+                  },
+                  child: Text(
+                    'Admin Login',
+                    style: TextStyle(
+                      color: Colors.grey[600],
+                      fontSize: 14,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ),
+
+               
               ],
             ),
-          )
+          ),
         ),
+      ),
     );
   }
 }
