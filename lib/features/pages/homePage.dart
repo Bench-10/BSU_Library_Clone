@@ -347,9 +347,9 @@ class _MyAppState extends State<HomePage> {
                           Container(
                             margin: EdgeInsets.only(bottom: 10),
                             width: double.infinity,
+                            height: 45,
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                fixedSize: Size(140, 40),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(5),   
                                 ),

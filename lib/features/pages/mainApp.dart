@@ -1,3 +1,5 @@
+import 'package:firebase_core/firebase_core.dart';
+import '../../firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../auth/login.dart';
@@ -8,7 +10,10 @@ import './onlineResourcesPage.dart';
 import './accountSettingsPage.dart';
 
 
-void main() {
+void main() async{
+  await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -25,7 +30,7 @@ class mainApp extends StatefulWidget {
   State<mainApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<mainApp> {
+class _MyAppState extends State<mainApp> {  
   int selectedIndex = 0;
   int currentPageIndex = 0; 
   
