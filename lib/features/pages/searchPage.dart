@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../services/bookmark_service.dart';
+import '../../services/auth_service.dart';
 
 
 class SearchPage extends StatefulWidget {
@@ -27,6 +29,7 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   List<Map<String, dynamic>> searchResults = [];
   bool isLoading = false;
+  Map<String, bool> bookmarkStatus = {}; // Track bookmark status for each book
 
   @override
   void initState() {
@@ -35,6 +38,53 @@ class _SearchPageState extends State<SearchPage> {
     // Initialize with passed search results
     if (widget.searchResults != null) {
       searchResults = widget.searchResults!;
+      _loadBookmarkStatus();
+    }
+  }
+
+  // Load bookmark status for all books
+  Future<void> _loadBookmarkStatus() async {
+    if (!AuthService.isLoggedIn()) return;
+    
+    for (var book in searchResults) {
+      if (book['id'] != null) {
+        bool isBookmarked = await BookmarkService.isBookmarked(book['id']);
+        setState(() {
+          bookmarkStatus[book['id']] = isBookmarked;
+        });
+      }
+    }
+  }
+
+  // Toggle bookmark for a book
+  Future<void> _toggleBookmark(Map<String, dynamic> book) async {
+    if (!AuthService.isLoggedIn()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Please login to bookmark books')),
+      );
+      return;
+    }
+
+    bool isCurrentlyBookmarked = bookmarkStatus[book['id']] ?? false;
+    
+    Map<String, dynamic> result;
+    if (isCurrentlyBookmarked) {
+      result = await BookmarkService.removeBookmark(book['id']);
+    } else {
+      result = await BookmarkService.addBookmark(book);
+    }
+
+    if (result['success']) {
+      setState(() {
+        bookmarkStatus[book['id']] = !isCurrentlyBookmarked;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(result['message'])),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(result['message'])),
+      );
     }
   }
 
@@ -221,7 +271,29 @@ class _SearchPageState extends State<SearchPage> {
                                       ),
                                   ],
                                 ),
-                                trailing: Icon(Icons.arrow_forward_ios, size: 16),
+                                trailing: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    // Bookmark button
+                                    IconButton(
+                                      icon: Icon(
+                                        bookmarkStatus[book['id']] == true 
+                                          ? Icons.bookmark 
+                                          : Icons.bookmark_border,
+                                        color: bookmarkStatus[book['id']] == true 
+                                          ? Colors.red 
+                                          : Colors.grey,
+                                        size: 24,
+                                      ),
+                                      onPressed: () => _toggleBookmark(book),
+                                      tooltip: bookmarkStatus[book['id']] == true 
+                                        ? 'Remove bookmark' 
+                                        : 'Add bookmark',
+                                    ),
+                                    // Details arrow
+                                    Icon(Icons.arrow_forward_ios, size: 16),
+                                  ],
+                                ),
                                 onTap: () {
                                   _showBookDetails(book);
                                 },

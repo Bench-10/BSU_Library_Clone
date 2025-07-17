@@ -6,6 +6,7 @@ import './homePage.dart';
 import './bookMark.dart';
 import './onlineResourcesPage.dart';
 import './accountSettingsPage.dart';
+import '../../services/auth_service.dart';
 
 class mainApp extends StatefulWidget {
   const mainApp({super.key});
@@ -15,7 +16,8 @@ class mainApp extends StatefulWidget {
   State<mainApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<mainApp> {  
+class _MyAppState extends State<mainApp> { 
+  Map<String, dynamic>? currentUser; 
   int selectedIndex = 0;
   int currentPageIndex = 0; 
   
@@ -24,6 +26,7 @@ class _MyAppState extends State<mainApp> {
   @override
   void initState() {
     super.initState();
+    currentUser = AuthService.currentUserData;
     pages = [
       HomePage(),
       MyActivityPage(),
@@ -104,7 +107,7 @@ class _MyAppState extends State<mainApp> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    '22-04617',
+                    currentUser!['sr_code']?.toString() ?? 'N/A',
                     style: GoogleFonts.poppins(
                       color: Colors.white,
                       fontSize: 14,
@@ -112,7 +115,7 @@ class _MyAppState extends State<mainApp> {
                     )
                   ),
                   Text(
-                    'Dela Luna, Bench Christian A.',
+                    currentUser!['full_name']?.toString() ?? 'USER NAME',
                     style: GoogleFonts.poppins(
                       color: Colors.white,
                       fontSize: 11,
@@ -157,14 +160,14 @@ class _MyAppState extends State<mainApp> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Dela Luna, Bench Christian A.',
+                              currentUser!['full_name']?.toString() ?? 'USER NAME',
                               style: GoogleFonts.poppins(color: Colors.white, fontSize: 19, fontWeight: FontWeight.w400),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                             ),
                             SizedBox(height: 3),
                             Text(
-                              '22-04617@g.batState-U.edu.ph',
+                              currentUser!['email']?.toString() ?? 'EMAIL',
                               style: GoogleFonts.poppins(color: Colors.white70, fontSize: 12),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
