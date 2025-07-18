@@ -534,7 +534,7 @@ class _MyAppState extends State<HomePage> {
                                 foregroundColor: const Color.fromARGB(255, 53, 53, 53),  
                               ),
 
-                              child: Text('Clear Form'),
+                              child: Text('Clear inputs'),
                               onPressed: (){
                                 _clearFields();
 

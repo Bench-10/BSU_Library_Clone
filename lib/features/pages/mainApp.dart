@@ -181,7 +181,7 @@ class _MyAppState extends State<mainApp> {
               ),
               SizedBox(height: 13),
               _buildDrawerItem('Home', 0),
-              _buildDrawerItem('My Activity', 1),
+              _buildDrawerItem('Borrowing Activity', 1),
               _buildDrawerItem('Bookmarks', 2),
               _buildDrawerItem('Online Resources', 3),
               _buildDrawerItem('Account Settings', 4),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../services/bookmark_service.dart';
+import '../../services/borrow_service.dart';
 import '../../services/auth_service.dart';
 
 
@@ -30,6 +31,7 @@ class _SearchPageState extends State<SearchPage> {
   List<Map<String, dynamic>> searchResults = [];
   bool isLoading = false;
   Map<String, bool> bookmarkStatus = {};
+  Map<String, String?> borrowRequestStatus = {};
 
   @override
   void initState() {
@@ -39,6 +41,7 @@ class _SearchPageState extends State<SearchPage> {
     if (widget.searchResults != null) {
       searchResults = widget.searchResults!;
       _loadBookmarkStatus();
+      _loadBorrowRequestStatus();
     }
   }
 
@@ -77,6 +80,45 @@ class _SearchPageState extends State<SearchPage> {
     if (result['success']) {
       setState(() {
         bookmarkStatus[book['id']] = !isCurrentlyBookmarked;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(result['message'])),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(result['message'])),
+      );
+    }
+  }
+
+  // Load borrow request status for all books
+  Future<void> _loadBorrowRequestStatus() async {
+    if (!AuthService.isLoggedIn()) return;
+    
+    for (var book in searchResults) {
+      if (book['id'] != null) {
+        String? status = await BorrowService.getRequestStatus(book['id']);
+        setState(() {
+          borrowRequestStatus[book['id']] = status;
+        });
+      }
+    }
+  }
+
+  // Request to borrow a book
+  Future<void> _requestBook(Map<String, dynamic> book) async {
+    if (!AuthService.isLoggedIn()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Please login to request books')),
+      );
+      return;
+    }
+
+    Map<String, dynamic> result = await BorrowService.requestBook(book);
+
+    if (result['success']) {
+      setState(() {
+        borrowRequestStatus[book['id']] = 'pending';
       });
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(result['message'])),
@@ -290,6 +332,8 @@ class _SearchPageState extends State<SearchPage> {
                                         ? 'Remove bookmark' 
                                         : 'Add bookmark',
                                     ),
+                                    // Request button
+                                    _buildRequestButton(book),
                                     // Details arrow
                                     Icon(Icons.arrow_forward_ios, size: 16),
                                   ],
@@ -370,5 +414,69 @@ class _SearchPageState extends State<SearchPage> {
         ],
       ),
     );
+  }
+
+  Widget _buildRequestButton(Map<String, dynamic> book) {
+    String? status = borrowRequestStatus[book['id']];
+    
+    if (status == 'pending') {
+      return Container(
+        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        margin: EdgeInsets.only(right: 8),
+        decoration: BoxDecoration(
+          color: Colors.orange,
+          borderRadius: BorderRadius.circular(3),
+        ),
+        child: Text(
+          'Pending',
+          style: GoogleFonts.poppins(
+            color: Colors.white,
+            fontSize: 10,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      );
+    } else if (status == 'granted') {
+      return Container(
+        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        margin: EdgeInsets.only(right: 8),
+        decoration: BoxDecoration(
+          color: Colors.blue,
+          borderRadius: BorderRadius.circular(3),
+        ),
+        child: Text(
+          'Granted',
+          style: GoogleFonts.poppins(
+            color: Colors.white,
+            fontSize: 10,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      );
+    } else {
+
+      return Container(
+        margin: EdgeInsets.only(right: 8),
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.green,
+            foregroundColor: Colors.white,
+            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            minimumSize: Size(60, 30),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(6),
+            ),
+          ),
+          onPressed: () => _requestBook(book),
+          child: Text(
+            'Request',
+            style: GoogleFonts.poppins(
+              fontSize: 10,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+      );
+    }
   }
 }

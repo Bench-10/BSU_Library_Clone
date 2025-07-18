@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../services/auth_service.dart';
 import '../auth/login.dart';
 import 'addBookPage.dart';
+import 'borrowRequestsPage.dart';
 
 class AdminMainApp extends StatefulWidget {
   const AdminMainApp({super.key});
@@ -17,6 +18,7 @@ class _AdminMainAppState extends State<AdminMainApp> {
  
   static final List<Widget> _pages = <Widget>[
     AddBookPage(),     
+    BorrowRequestsPage(),
   ];
 
   void _onItemTapped(int index) {
@@ -206,6 +208,19 @@ class _AdminMainAppState extends State<AdminMainApp> {
             selected: _selectedIndex == 0,
             onTap: () {
               _onItemTapped(0);
+              Navigator.pop(context);
+            },
+          ),
+
+          ListTile(
+            title: Text('Borrow Requests',
+              style: GoogleFonts.poppins(
+                color: Colors.white,
+              ),
+            ),
+            selected: _selectedIndex == 1,
+            onTap: () {
+              _onItemTapped(1);
               Navigator.pop(context);
             },
           ),
