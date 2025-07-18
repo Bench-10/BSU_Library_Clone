@@ -29,7 +29,7 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   List<Map<String, dynamic>> searchResults = [];
   bool isLoading = false;
-  Map<String, bool> bookmarkStatus = {}; // Track bookmark status for each book
+  Map<String, bool> bookmarkStatus = {};
 
   @override
   void initState() {

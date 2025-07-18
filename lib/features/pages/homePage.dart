@@ -22,11 +22,13 @@ class _MyAppState extends State<HomePage> {
   bool isLoading = false;
   
   final List<String> campuses = [
-    'Alangilan',
-    'Lipa',
-    'Nasugbu',
-    'Malvar',
-    'Lemery',
+    'ARASOF-Nasugbu',
+    'BatStateU TNEU-Alangilan',
+    'BatStateU TNEU-Balayan',
+    'BatStateU TNEU-Lemery',
+    'BatStateU TNEU-Mabini',
+    'BatStateU TNEU-Malvar',
+    'BatStateU TNEU-San Juan',
   ];
   
   final List<String> materialTypes = [

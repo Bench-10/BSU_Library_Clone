@@ -153,7 +153,7 @@ class BookService {
 
   // ======= ADMIN FUNCTIONS =======
   
-  // 8. Add a new book (Admin only)
+  
   static Future<Map<String, dynamic>> addBook({
     required String author,
     required String title,
@@ -188,7 +188,7 @@ class BookService {
     }
   }
 
-  // 9. Update an existing book (Admin only)
+  
   static Future<Map<String, dynamic>> updateBook({
     required String bookId,
     String? author,

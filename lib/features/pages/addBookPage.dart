@@ -89,7 +89,7 @@ class _AddBookPageState extends State<AddBookPage> {
       });
 
       if (result['success']) {
-        // Show success dialog
+        
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -106,7 +106,7 @@ class _AddBookPageState extends State<AddBookPage> {
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
-                    _clearForm(); // Clear form after successful addition
+                    _clearForm(); 
                   },
                   child: Text('OK'),
                 ),
@@ -115,7 +115,7 @@ class _AddBookPageState extends State<AddBookPage> {
           },
         );
       } else {
-        // Show error dialog
+       
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -151,7 +151,7 @@ class _AddBookPageState extends State<AddBookPage> {
         padding: EdgeInsets.all(20),
         child: Center(
           child: Container(
-            constraints: BoxConstraints(maxWidth: 600),
+            
             padding: EdgeInsets.symmetric(horizontal: 35, vertical: 30),
             decoration: BoxDecoration(
               color: Colors.white,

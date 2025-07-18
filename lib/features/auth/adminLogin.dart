@@ -28,6 +28,9 @@ class _AdminLoginState extends State<AdminLogin> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 247, 250, 252),
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Colors.white,
+        ),
         toolbarHeight: 90,
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         flexibleSpace: Stack(
@@ -53,6 +56,7 @@ class _AdminLoginState extends State<AdminLogin> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
+                    SizedBox(width: 20,), 
                     Container(
                       margin: EdgeInsets.fromLTRB(30, 10, 5, 10),
                       width: 60,
