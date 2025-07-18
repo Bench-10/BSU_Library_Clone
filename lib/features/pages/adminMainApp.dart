@@ -210,6 +210,7 @@ class _AdminMainAppState extends State<AdminMainApp> {
               _onItemTapped(0);
               Navigator.pop(context);
             },
+            contentPadding: EdgeInsets.fromLTRB(35, 7, 0, 7),
           ),
 
           ListTile(
@@ -223,6 +224,8 @@ class _AdminMainAppState extends State<AdminMainApp> {
               _onItemTapped(1);
               Navigator.pop(context);
             },
+
+            contentPadding: EdgeInsets.fromLTRB(35, 7, 0, 7),
           ),
 
          
@@ -271,6 +274,10 @@ class _AdminMainAppState extends State<AdminMainApp> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+            shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
           title: Text('Logout'),
           content: Text('Are you sure you want to logout?'),
           actions: [

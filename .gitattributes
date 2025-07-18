@@ -8,3 +8,7 @@
 /android/app/build/intermediates/merged_native_libs/release/mergeReleaseNativeLibs/out/lib/x86_64/libflutter.so filter=lfs diff=lfs merge=lfs -text
 /android/app/build/outputs/apk/debug/app-debug.apk filter=lfs diff=lfs merge=lfs -text
 /android/app/build/outputs/flutter-apk/app-debug.apk filter=lfs diff=lfs merge=lfs -text
+/android/app/build/intermediates/incremental/debug-mergeJavaRes/zip-cache/TANFu1j8+rwxuyMBX1QQm+02QbA= filter=lfs diff=lfs merge=lfs -text
+/android/app/build/intermediates/intermediary_bundle/debug/packageDebugBundle/intermediary-bundle.aab filter=lfs diff=lfs merge=lfs -text
+/android/app/build/intermediates/module_bundle/debug/buildDebugPreBundle/base.zip filter=lfs diff=lfs merge=lfs -text
+/android/app/build/outputs/bundle/debug/app-debug.aab filter=lfs diff=lfs merge=lfs -text

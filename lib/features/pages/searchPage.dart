@@ -256,21 +256,53 @@ class _SearchPageState extends State<SearchPage> {
                               margin: EdgeInsets.only(bottom: 9),
                               child: ListTile(
                                
-                                title: Text(
-                                  book['title'] ?? 'No Title',
-                                  style: GoogleFonts.poppins(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 19,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 2,
-                                ),
+                      
 
                                 subtitle: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    Row(
+                                      children: [
+                                         Text(
+                                          book['title'] ?? 'No Title',
+                                          style: GoogleFonts.poppins(
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 19,
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 2,
+                                        ),
+
+                                        IconButton(
+                                          icon: Icon(
+                                            Icons.star,
+                                            color: bookmarkStatus[book['id']] == true 
+                                              ? const Color.fromARGB(255, 226, 202, 20) 
+                                              : const Color.fromARGB(255, 186, 186, 186),
+                                            size: 20,
+                                          ),
+                                          onPressed: () => _toggleBookmark(book),
+                                          tooltip: bookmarkStatus[book['id']] == true 
+                                            ? 'Remove bookmark' 
+                                            : 'Add bookmark',
+                                        ),
+                                      ],
+
+                                    ),
 
                                     SizedBox(height: 14,),
+
+                                    Text(
+                                      'Author: ${book['author'] ?? 'Unknown'}',
+                                      style: GoogleFonts.poppins(fontSize: 12, fontStyle: FontStyle.italic),
+                                    ),
+                                    Text(
+                                      'Subject: ${book['subject'] ?? 'General'}',
+                                      style: GoogleFonts.poppins(fontSize: 12, fontStyle: FontStyle.italic),
+                                    ),
+
+                                    SizedBox(height: 5,),
+
 
                                     Container(
                                       padding: EdgeInsets.symmetric(vertical: 5, horizontal: 14) ,
@@ -286,56 +318,16 @@ class _SearchPageState extends State<SearchPage> {
                                       
                                     ),
 
-
-                                    SizedBox(height: 4),
-                                    Text(
-                                      'Author: ${book['author'] ?? 'Unknown'}',
-                                      style: GoogleFonts.poppins(fontSize: 12, fontStyle: FontStyle.italic),
-                                    ),
-                                    Text(
-                                      'Subject: ${book['subject'] ?? 'General'}',
-                                      style: GoogleFonts.poppins(fontSize: 12, fontStyle: FontStyle.italic),
-                                    ),
-                                    Text(
-                                      'Campus: ${book['campus'] ?? 'Not specified'}',
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 12,
-                                        color: Colors.blue.shade600,
-                                      ),
-                                    ),
-                                    if (book['material_type'] != null)
-                                      Text(
-                                        'Type: ${book['material_type']}',
-                                        style: GoogleFonts.poppins(
-                                          fontSize: 12,
-                                          color: Colors.green.shade600,
-                                        ),
-                                      ),
+                                    SizedBox(height: 5,),
                                   ],
                                 ),
                                 trailing: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    // Bookmark button
-                                    IconButton(
-                                      icon: Icon(
-                                        bookmarkStatus[book['id']] == true 
-                                          ? Icons.bookmark 
-                                          : Icons.bookmark_border,
-                                        color: bookmarkStatus[book['id']] == true 
-                                          ? Colors.red 
-                                          : Colors.grey,
-                                        size: 24,
-                                      ),
-                                      onPressed: () => _toggleBookmark(book),
-                                      tooltip: bookmarkStatus[book['id']] == true 
-                                        ? 'Remove bookmark' 
-                                        : 'Add bookmark',
-                                    ),
-                                    // Request button
+                                 
                                     _buildRequestButton(book),
-                                    // Details arrow
-                                    Icon(Icons.arrow_forward_ios, size: 16),
+                                    
+          
                                   ],
                                 ),
                                 onTap: () {
@@ -366,6 +358,7 @@ class _SearchPageState extends State<SearchPage> {
             book['title'] ?? 'Book Details',
             style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
           ),
+
           content: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -467,9 +460,60 @@ class _SearchPageState extends State<SearchPage> {
               borderRadius: BorderRadius.circular(6),
             ),
           ),
-          onPressed: () => _requestBook(book),
+          onPressed: () =>{
+            showDialog(context: context,
+              builder: (BuildContext borrowConfirmition) {
+                  return AlertDialog(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),  
+                    ),
+                    title: Text(
+                      'Are you sure you want to borrow this book?',
+                      style: GoogleFonts.poppins(fontWeight: FontWeight.w600,
+                        fontSize: 16
+                      ),
+                    ),
+
+                    actions: [
+                      ElevatedButton(
+                        onPressed: () => {
+                          Navigator.of(borrowConfirmition).pop(),
+                          _requestBook(book),
+                          afterBorrowConfirmation(),
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color.fromARGB(255, 3, 185, 3),
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5), 
+                          )
+                          
+                        ),
+                        child: Text('Yes')
+                      ),
+
+                      ElevatedButton(
+                        onPressed: () => Navigator.of(borrowConfirmition).pop(),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color.fromARGB(255, 230, 12, 12),
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5), 
+                          )
+                        ),
+                        child: Text('Cancel')
+                      ),
+
+
+                    ],
+
+                  );
+              }
+            )
+          },
+          
           child: Text(
-            'Request',
+            'Borrow',
             style: GoogleFonts.poppins(
               fontSize: 10,
               fontWeight: FontWeight.w500,
@@ -479,4 +523,46 @@ class _SearchPageState extends State<SearchPage> {
       );
     }
   }
+
+
+  void afterBorrowConfirmation(){
+    showDialog(
+      context: context,
+      builder: (BuildContext borrowConfirmationAfter) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          title: Text(
+            'Please wait while the admin proccesses your borrowing request. You will be notified in your g-suite account once it is approved.',
+            style: GoogleFonts.poppins(
+              fontWeight: FontWeight.w500,
+              fontSize: 14,
+            ),
+          ),
+
+          actions: [
+            ElevatedButton(onPressed: () => Navigator.pop(borrowConfirmationAfter), 
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color.fromARGB(255, 3, 185, 3),
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5), 
+              )
+              
+            ),
+            child: Text('Ok'),
+            )
+          ],
+        );
+      },
+    );
+
+  }
+
+
+
+
+
+
 }

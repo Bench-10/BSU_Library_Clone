@@ -1,7 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:flutter/material.dart';
-import 'features/pages/mainApp.dart';
 import './features/auth/login.dart';
 
 void main() async {
@@ -11,15 +10,17 @@ void main() async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-    print('✅ Firebase initialized successfully');
+    // Firebase initialized successfully
   } catch (e) {
-    print('❌ Firebase initialization error: $e');
+    // Firebase initialization error: $e
   }
   
-  runApp(LibraryApp());
+  runApp(const LibraryApp());
 }
 
 class LibraryApp extends StatelessWidget {
+  const LibraryApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -59,7 +60,7 @@ class LibraryApp extends StatelessWidget {
                       onPressed: () {
                         // Restart the app
                         Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(builder: (context) => LibraryApp()),
+                          MaterialPageRoute(builder: (context) => const LibraryApp()),
                         );
                       },
                       child: Text('Retry'),
@@ -79,11 +80,11 @@ class LibraryApp extends StatelessWidget {
   Future<void> _checkFirebaseConnection() async {
     try {
       // Test Firebase connection by trying to access Firestore
-      await Future.delayed(Duration(seconds: 1)); // Give Firebase time to initialize
-      print('Firebase connection check completed');
+      await Future.delayed(const Duration(seconds: 1)); // Give Firebase time to initialize
+      // Firebase connection check completed
     } catch (e) {
-      print('Firebase connection check failed: $e');
-      throw e;
+      // Firebase connection check failed: $e
+      rethrow;
     }
   }
 }

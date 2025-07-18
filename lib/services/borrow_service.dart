@@ -16,6 +16,8 @@ class BorrowService {
       }
 
       String userId = AuthService.currentUserId!;
+      String userName = AuthService.currentUserData!['full_name'];
+      String userEmail = AuthService.currentUserData!['email'];
       
       // Check if user already has a pending or granted request for this book
       QuerySnapshot existingRequest = await _borrowRequestsCollection
@@ -34,8 +36,8 @@ class BorrowService {
       // Create borrow request
       await _borrowRequestsCollection.add({
         'user_id': userId,
-        'user_name': 'Student User', // Will be updated when we get user data
-        'user_email': 'student@email.com', // Will be updated when we get user data
+        'user_name': userName, // Will be updated when we get user data
+        'user_email': userEmail, // Will be updated when we get user data
         'book_id': book['id'],
         'book_title': book['title'],
         'book_author': book['author'],

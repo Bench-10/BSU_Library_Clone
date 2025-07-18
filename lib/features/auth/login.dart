@@ -257,7 +257,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             return AlertDialog(
                               backgroundColor: const Color.fromARGB(255, 255, 255, 255),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
+                                borderRadius: BorderRadius.circular(10),
                               ),
                               title: Text(
                                 'Success!',
@@ -299,6 +299,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: const Color.fromARGB(255, 230, 12, 12),
                                     foregroundColor: Colors.white,
+                                                            
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(3),
+                                    )
                                   ),
                                   child: Text('OK'),
                                 ),
@@ -314,7 +318,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             return AlertDialog(
                               backgroundColor: const Color.fromARGB(255, 255, 255, 255),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
+                                borderRadius: BorderRadius.circular(10),
                               ),
                               title: Text(
                                 'Login Failed',
@@ -337,6 +341,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.red,
                                     foregroundColor: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(3),
+                                    )
                                   ),
                                   child: Text('OK'),
                                 ),

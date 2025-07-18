@@ -44,23 +44,6 @@ class _BorrowRequestsPageState extends State<BorrowRequestsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 247, 250, 252),
-      appBar: AppBar(
-        title: Text(
-          'Borrow Requests',
-          style: GoogleFonts.poppins(
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
-        backgroundColor: Colors.red,
-        elevation: 2,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.refresh, color: Colors.white),
-            onPressed: _loadBorrowRequests,
-          ),
-        ],
-      ),
       body: Column(
         children: [
           // Filter tabs
@@ -186,7 +169,7 @@ class _BorrowRequestsPageState extends State<BorrowRequestsPage> {
                   padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   decoration: BoxDecoration(
                     color: statusColor,
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(5),
                   ),
                   child: Text(
                     (request['status'] ?? 'unknown').toUpperCase(),
@@ -342,6 +325,9 @@ class _BorrowRequestsPageState extends State<BorrowRequestsPage> {
         return StatefulBuilder(
           builder: (context, setDialogState) {
             return AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
               title: Text(
                 'Grant Access',
                 style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
@@ -400,16 +386,26 @@ class _BorrowRequestsPageState extends State<BorrowRequestsPage> {
               ),
               actions: [
                 TextButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 230, 23, 23),
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5), 
+                    )
+                  ),
                   onPressed: () => Navigator.of(context).pop(),
                   child: Text(
                     'Cancel',
-                    style: GoogleFonts.poppins(color: Colors.grey),
+                    style: GoogleFonts.poppins(color: const Color.fromARGB(255, 255, 255, 255)),
                   ),
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
                     foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5), 
+                    )
                   ),
                   onPressed: () {
                     Navigator.of(context).pop();

@@ -222,11 +222,7 @@ class _MyAppState extends State<BookMarksPage> {
                                       ),
                                       margin: EdgeInsets.only(bottom: 8),
                                       child: ListTile(
-                                        leading: Icon(
-                                          Icons.bookmark,
-                                          color: Colors.red,
-                                          size: 24,
-                                        ),
+                                        
                                         title: Text(
                                           bookmark['book_title'] ?? 'No Title',
                                           style: GoogleFonts.poppins(
@@ -275,7 +271,7 @@ class _MyAppState extends State<BookMarksPage> {
                                               onPressed: () => _removeBookmark(bookmark['book_id'], index),
                                               tooltip: 'Remove bookmark',
                                             ),
-                                            Icon(Icons.arrow_forward_ios, size: 14, color: Colors.grey),
+                                          
                                           ],
                                         ),
                                         onTap: () {
