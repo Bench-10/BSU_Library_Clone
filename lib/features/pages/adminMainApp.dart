@@ -296,7 +296,7 @@ class _AdminMainAppState extends State<AdminMainApp> {
                   MaterialPageRoute(builder: (context) => Login()),
                 );
               },
-              child: Text('Logout'),
+              child: Text('Logout', style: GoogleFonts.poppins(color: Colors.red, fontWeight: FontWeight.w600)),
             ),
           ],
         );
