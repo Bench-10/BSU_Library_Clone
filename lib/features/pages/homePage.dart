@@ -153,6 +153,18 @@ class _MyAppState extends State<HomePage> {
     }
   }
 
+  void _clearFields() async {
+     _searchController.clear();
+     setState(() {
+      selectedCampus = null;
+      selectedMaterialType = null;
+      selectedOption = null;
+
+    });
+     
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -506,7 +518,32 @@ class _MyAppState extends State<HomePage> {
                                     ),
                                   ),
                             ),
+                          ),
+
+
+                          Container(
+                            margin: EdgeInsets.only(bottom: 10),
+                            width: double.infinity,
+                            height: 45,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5),   
+                                ),
+                                backgroundColor: const Color.fromARGB(255, 234, 234, 234), 
+                                foregroundColor: const Color.fromARGB(255, 53, 53, 53),  
+                              ),
+
+                              child: Text('Clear Form'),
+                              onPressed: (){
+                                _clearFields();
+
+                              }
+                            ),
+
                           )
+
+                          
 
                         ],
                       ),
