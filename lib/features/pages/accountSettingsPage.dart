@@ -321,7 +321,7 @@ class _MyAppState extends State<AccountSettingsPage> {
 
                     // Logout button
                     Spacer(),
-                    Container(
+                    SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
