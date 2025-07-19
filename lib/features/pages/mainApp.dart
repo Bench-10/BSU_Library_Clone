@@ -20,6 +20,7 @@ class _MyAppState extends State<mainApp> {
   Map<String, dynamic>? currentUser; 
   int selectedIndex = 0;
   int currentPageIndex = 0; 
+  bool _isOnlineResourcesExpanded = false; 
   
   late final List<Widget> pages;
 
@@ -143,7 +144,7 @@ class _MyAppState extends State<mainApp> {
       child: Stack(
         children: [
           ListView(
-            padding: EdgeInsets.zero,
+            padding: EdgeInsets.symmetric(horizontal: 15),
             children: <Widget>[
               DrawerHeader(
                 child: Center(
@@ -188,40 +189,46 @@ class _MyAppState extends State<mainApp> {
               _buildDrawerItem('Home', 0),
               _buildDrawerItem('Borrowing Activity', 1),
               _buildDrawerItem('Bookmarks', 2),
-              _buildDrawerItem('Online Resources', 3),
+              _buildExpandableOnlineResources(),
               _buildDrawerItem('Account Settings', 4),
-            ],
-          ),
-          Positioned(
-            bottom: 40,
-            right: 30,
-            height: 45,
-            width: 120,
-            child: FloatingActionButton(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(7)
-              ),
-              onPressed: () {
 
-                _showLogoutDialog();
-                
-              },
-              backgroundColor: Colors.grey,
-              child: Container(
-                padding: EdgeInsets.all(10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.logout, color: Colors.white),
-                    SizedBox(width: 5),
-                    Text(
-                      'Logout',
-                      style: TextStyle(color: Colors.white),
+              SizedBox(height: 13),
+
+              SizedBox(
+                  height: 45,
+                  width: 100,
+                  child:ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.grey,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(7),
                     ),
-                  ],
+                    padding: EdgeInsets.zero,
+                  ),
+                  onPressed: () {
+
+                    _showLogoutDialog();
+                    
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.logout, color: Colors.white),
+                        SizedBox(width: 5),
+                        Text(
+                          'Logout',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ],
+                    ),
+                  )
                 ),
-              )
-            ),
+              ),
+
+              SizedBox(height: 25),
+            ],
           ),
         ],
       ),
@@ -239,7 +246,7 @@ class _MyAppState extends State<mainApp> {
         });
         Navigator.pop(context);
       },
-      contentPadding: EdgeInsets.fromLTRB(35, 7, 0, 7),
+      contentPadding: EdgeInsets.fromLTRB(25, 7, 0, 7),
       title: Text(
         title,
         style: GoogleFonts.poppins(
@@ -274,7 +281,7 @@ class _MyAppState extends State<mainApp> {
               },
               child: Text('Cancel'),
             ),
-            TextButton(
+            ElevatedButton(
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5), 
@@ -308,6 +315,72 @@ class _MyAppState extends State<mainApp> {
     );
   }
 
+  Widget _buildExpandableOnlineResources() {
+  final List<String> onlineResources = [
+    'PressReader',
+    'Emerald Insight',
+    'IEEE Xplore',
+    'iGLibrary',
+    'BatStateU CHEST',
+    'Elibrary USA',
+    'ScienceDirect',
+    'GALE ONEFILE CUSTOM 250',
+    'Philippine Ebook Hub',
+    'Philippine eJournals',
+    'ProQuest Academic Research Library',
+  ];
+
+  return Column(
+    children: [
+      ListTile(
+        contentPadding: EdgeInsets.fromLTRB(35, 7, 35, 7),
+        title: Text(
+          'Online Resources',
+          style: GoogleFonts.poppins(
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+        trailing: Icon(
+          _isOnlineResourcesExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+          color: Colors.white,
+          size: 20,
+        ),
+        onTap: () {
+          setState(() {
+            _isOnlineResourcesExpanded = !_isOnlineResourcesExpanded;
+          });
+        },
+      ),
+      if (_isOnlineResourcesExpanded)
+        ...onlineResources.map((resource) => 
+          ListTile(
+            contentPadding: EdgeInsets.fromLTRB(70, 2, 0, 2),
+            title: Text(
+              resource,
+              style: GoogleFonts.poppins(
+                color: Colors.white,
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            onTap: () {
+              print('Selected: $resource');
+              setState(() {
+                selectedIndex = 3;
+                currentPageIndex = 3;
+              });
+              Navigator.pop(context);
+            },
+          )
+        ),
+    ],
+  );
+}}
+
+
   
-}
+
+
 

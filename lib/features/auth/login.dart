@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../pages/mainApp.dart';
 import '../../services/auth_service.dart';
 import 'adminLogin.dart';
+import '../pages/navigation_bar.dart';
 
 void main() {
   runApp(const Login());
@@ -58,88 +59,30 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 247, 250, 252),
-      appBar: AppBar(
-        toolbarHeight: 90,
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        flexibleSpace: Stack(
-          fit: StackFit.expand,
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/images/bsu-header.jpg'),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            Container(
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(123, 6, 3, 3),
-              ),
-            ),
-            Center(
+      body: Column(
+        children: [
+          _buildHeader(),
+          _buildNavBar(),
+
+          Expanded(
+            child: Center(
               child: Container(
-                height: 75,
-                color: const Color.fromARGB(188, 185, 0, 0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.fromLTRB(30, 10, 5, 10),
-                      width: 60, 
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage('assets/images/BatStateU-NEU-Logo.png'),
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 5), 
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          widget.title,
-                          style: GoogleFonts.merriweather(
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                        Text(
-                          'Library',
-                          style: TextStyle(
-                            color: Colors.white
-                          ),
-                        )
-                      ],
+                margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                padding: EdgeInsets.symmetric(horizontal: 35, vertical: 30),
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 255, 255, 255),
+                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                      offset: Offset(2, 3),
                     )
-                  ],
+                  ]
                 ),
-              ),
-            ),
-          ],
-        ),
-      ),
-      body: Center(
-        child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-          padding: EdgeInsets.symmetric(horizontal: 35, vertical: 30),
-          decoration: BoxDecoration(
-            color: const Color.fromARGB(255, 255, 255, 255),
-            borderRadius: BorderRadius.all(Radius.circular(15)),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.2),
-                spreadRadius: 2,
-                blurRadius: 5,
-                offset: Offset(2, 3),
-              )
-            ]
-          ),
-          width: 420,
-          child: Column(
+                width: 420,
+                child: Column(
             mainAxisSize: MainAxisSize.min, 
             children: [
               Text('LOGIN', 
@@ -403,7 +346,80 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           ),
         ),
+              ),
+            ),
+        ]
       ),
     );
+  }
+
+  Widget _buildHeader() {
+    return SizedBox(
+      height: 90,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/bsu-header.jpg'),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              color: const Color.fromARGB(123, 6, 3, 3),
+            ),
+          ),
+          Center(
+            child: Container(
+              height: 75,
+              color: const Color.fromARGB(188, 185, 0, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    margin: EdgeInsets.fromLTRB(30, 10, 5, 10),
+                    width: 60, 
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('assets/images/BatStateU-NEU-Logo.png'),
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 5),                     
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.title,
+                        style: GoogleFonts.merriweather(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                      Text(
+                        'Library',
+                        style: TextStyle(
+                          color: Colors.white
+                        ),
+                      )
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+  //NavBar 
+  Widget _buildNavBar() {
+    return CustomNavigationBar();
   }
 }

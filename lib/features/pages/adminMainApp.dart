@@ -5,6 +5,7 @@ import '../auth/login.dart';
 import 'addBookPage.dart';
 import 'borrowRequestsPage.dart';
 import 'returnedBooksPage.dart';
+import 'admin_dashboard_content.dart';
 
 class AdminMainApp extends StatefulWidget {
   const AdminMainApp({super.key});
@@ -18,9 +19,11 @@ class _AdminMainAppState extends State<AdminMainApp> {
   
  
   static final List<Widget> _pages = <Widget>[
-    AddBookPage(),     
+    AddBookPage(),
+    AdminDashboardContent(),     
     BorrowRequestsPage(),
     ReturnedBooksPage(),
+    
   ];
 
   void _onItemTapped(int index) {
@@ -125,7 +128,7 @@ class _AdminMainAppState extends State<AdminMainApp> {
       child:Stack(
         children: [
           ListView(
-        padding: EdgeInsets.zero,
+        padding: EdgeInsets.symmetric(horizontal: 15),
         children: [
           DrawerHeader(
             child: Center(
@@ -189,11 +192,11 @@ class _AdminMainAppState extends State<AdminMainApp> {
               _onItemTapped(0);
               Navigator.pop(context);
             },
-            contentPadding: EdgeInsets.fromLTRB(35, 7, 0, 7),
+            contentPadding: EdgeInsets.fromLTRB(20, 7, 0, 7),
           ),
 
           ListTile(
-            title: Text('Borrow Requests',
+            title: Text('Dashboard',
               style: GoogleFonts.poppins(
                 color: Colors.white,
               ),
@@ -204,11 +207,11 @@ class _AdminMainAppState extends State<AdminMainApp> {
               Navigator.pop(context);
             },
 
-            contentPadding: EdgeInsets.fromLTRB(35, 7, 0, 7),
+            contentPadding: EdgeInsets.fromLTRB(20, 7, 0, 7),
           ),
 
           ListTile(
-            title: Text('Returned Books',
+            title: Text('Borrow Requests',
               style: GoogleFonts.poppins(
                 color: Colors.white,
               ),
@@ -218,19 +221,29 @@ class _AdminMainAppState extends State<AdminMainApp> {
               _onItemTapped(2);
               Navigator.pop(context);
             },
-            contentPadding: EdgeInsets.fromLTRB(35, 7, 0, 7),
+
+            contentPadding: EdgeInsets.fromLTRB(20, 7, 0, 7),
           ),
 
-         
+          ListTile(
+            title: Text('Returned Books',
+              style: GoogleFonts.poppins(
+                color: Colors.white,
+              ),
+            ),
+            selected: _selectedIndex == 3,
+            onTap: () {
+              _onItemTapped(3);
+              Navigator.pop(context);
+            },
+            contentPadding: EdgeInsets.fromLTRB(20, 7, 0, 7),
+          ),
 
-          
-        ],
-      ),
-       Positioned(
-            bottom: 40,
-            right: 30,
+          SizedBox(height: 13),
+
+          SizedBox(
             height: 45,
-            width: 120,
+            width: 100,
             child: FloatingActionButton(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(7)
@@ -255,6 +268,13 @@ class _AdminMainAppState extends State<AdminMainApp> {
               )
             ),
           ),
+
+          SizedBox(height: 25),
+
+      
+        ],
+      ),
+
           
         ],
       )

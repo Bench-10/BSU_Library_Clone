@@ -319,41 +319,6 @@ class _MyAppState extends State<AccountSettingsPage> {
 
                     SizedBox(height: 30,),
 
-                    // Logout button
-                    Spacer(),
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.red,
-                          foregroundColor: Colors.white,
-                          padding: EdgeInsets.symmetric(vertical: 15),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                        onPressed: () {
-                          _showLogoutDialog();
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.logout),
-                            SizedBox(width: 8),
-                            Text(
-                              'Logout',
-                              style: GoogleFonts.poppins(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-
-                    SizedBox(height: 20),
-
                   ],
               )
             ),
@@ -362,51 +327,6 @@ class _MyAppState extends State<AccountSettingsPage> {
         ],
       ),
 
-    );
-  }
-
-  void _showLogoutDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          title: Text(
-            'Logout',
-            style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
-          ),
-          content: Text(
-            'Are you sure you want to logout?',
-            style: GoogleFonts.poppins(),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: Text(
-                'Cancel',
-                style: GoogleFonts.poppins(color: Colors.grey),
-              ),
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red,
-                foregroundColor: Colors.white,
-              ),
-              onPressed: () {
-                AuthService.logoutUser();
-                Navigator.of(context).pop();
-                Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
-              },
-              child: Text(
-                'Logout',
-                style: GoogleFonts.poppins(),
-              ),
-            ),
-          ],
-        );
-      },
     );
   }
 }
