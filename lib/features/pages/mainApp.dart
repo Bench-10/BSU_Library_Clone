@@ -333,7 +333,7 @@ class _MyAppState extends State<mainApp> {
   return Column(
     children: [
       ListTile(
-        contentPadding: EdgeInsets.fromLTRB(35, 7, 35, 7),
+        contentPadding: EdgeInsets.fromLTRB(25, 7, 0, 7),
         title: Text(
           'Online Resources',
           style: GoogleFonts.poppins(

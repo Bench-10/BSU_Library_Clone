@@ -145,8 +145,8 @@ class _MyAppState extends State<MyActivityPage> {
         borderRadius: BorderRadius.circular(8),
         color: Colors.white,
         border: Border.all(
-          color: statusColor,   // border color
-          width: 2.0,            // border thickness
+          color: statusColor, 
+          width: 2.0,      
         ),
       ),
       child: Padding(
