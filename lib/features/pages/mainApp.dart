@@ -150,8 +150,13 @@ class _MyAppState extends State<mainApp> {
                   child: Row(
                     children: [
                       CircleAvatar(
+                        backgroundColor: Colors.red.shade100,
                         radius: 35,
-                        backgroundImage: AssetImage('assets/images/profile.jpg'),
+                        child: Icon(
+                            Icons.person,
+                            size: 60,
+                            color: Colors.red,
+                          ),
                       ),
                       SizedBox(width: 15),
                       Expanded(

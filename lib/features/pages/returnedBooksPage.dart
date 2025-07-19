@@ -46,7 +46,7 @@ class _ReturnedBooksPageState extends State<ReturnedBooksPage> {
                 Icon(Icons.book_outlined, color: Colors.red, size: 28),
                 SizedBox(width: 12),
                 Text(
-                  'Returned Hard Copy Books',
+                  'Returned Books Confirmation',
                   style: GoogleFonts.poppins(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -109,12 +109,15 @@ class _ReturnedBooksPageState extends State<ReturnedBooksPage> {
   }
 
   Widget _buildBookCard(Map<String, dynamic> book) {
-    return Card(
+    return Container(
       margin: EdgeInsets.only(bottom: 12),
-      elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
+      decoration: BoxDecoration(
+        color: const Color.fromARGB(255, 223, 223, 223),
+        borderRadius: BorderRadius.circular(10)
+
       ),
+      
+      
       child: ListTile(
         contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         title: Text(
@@ -148,6 +151,7 @@ class _ReturnedBooksPageState extends State<ReturnedBooksPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          backgroundColor: Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
           ),
@@ -161,11 +165,11 @@ class _ReturnedBooksPageState extends State<ReturnedBooksPage> {
             children: [
               // Book Information Section
               Container(
-                padding: EdgeInsets.all(16),
+                padding: EdgeInsets.all(14),
                 decoration: BoxDecoration(
-                  color: Colors.blue.shade50,
+                  color: const Color.fromARGB(255, 255, 255, 255),
                   borderRadius: BorderRadius.circular(6),
-                  border: Border.all(color: Colors.blue.shade200),
+                  border: Border.all(color: const Color.fromARGB(255, 54, 54, 54)),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -175,7 +179,6 @@ class _ReturnedBooksPageState extends State<ReturnedBooksPage> {
                       style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w600,
                         fontSize: 14,
-                        color: Colors.blue.shade700,
                       ),
                     ),
                     SizedBox(height: 8),
@@ -188,15 +191,19 @@ class _ReturnedBooksPageState extends State<ReturnedBooksPage> {
                 ),
               ),
               
-              SizedBox(height: 16),
+              SizedBox(height: 8),
+
+              Divider(thickness: 2, color: Colors.black,),
+
+              SizedBox(height: 8),
               
               // Student Information Section
               Container(
-                padding: EdgeInsets.all(16),
+                padding: EdgeInsets.all(14),
                 decoration: BoxDecoration(
-                  color: Colors.green.shade50,
+                  color: const Color.fromARGB(255, 255, 255, 255),
                   borderRadius: BorderRadius.circular(6),
-                  border: Border.all(color: Colors.green.shade200),
+                   border: Border.all(color: const Color.fromARGB(255, 54, 54, 54)),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -206,7 +213,6 @@ class _ReturnedBooksPageState extends State<ReturnedBooksPage> {
                       style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w600,
                         fontSize: 14,
-                        color: Colors.green.shade700,
                       ),
                     ),
                     SizedBox(height: 8),
@@ -261,9 +267,9 @@ class _ReturnedBooksPageState extends State<ReturnedBooksPage> {
             child: Text(
               '$label:',
               style: GoogleFonts.poppins(
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w700,
                 fontSize: 12,
-                color: Colors.grey.shade600,
+                color: const Color.fromARGB(255, 34, 34, 34),
               ),
             ),
           ),
@@ -272,6 +278,7 @@ class _ReturnedBooksPageState extends State<ReturnedBooksPage> {
               value?.toString() ?? 'Not specified',
               style: GoogleFonts.poppins(
                 fontSize: 12,
+                fontStyle: FontStyle.italic,
               ),
             ),
           ),

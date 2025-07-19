@@ -276,7 +276,7 @@ class _AdminLoginState extends State<AdminLogin> {
                               width: 20,
                               height: 20,
                               child: CircularProgressIndicator(
-                                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                valueColor: AlwaysStoppedAnimation<Color>(Colors.red),
                               ),
                             ),
                             SizedBox(width: 10),

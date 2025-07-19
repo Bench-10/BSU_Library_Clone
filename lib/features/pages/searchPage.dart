@@ -588,6 +588,7 @@ class _SearchPageState extends State<SearchPage> {
 
   Widget _buildRequestButton(Map<String, dynamic> book) {
     String? status = borrowRequestStatus[book['id']];
+
     
     if (status == 'pending') {
       return Container(

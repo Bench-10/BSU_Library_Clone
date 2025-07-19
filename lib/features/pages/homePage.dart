@@ -32,12 +32,13 @@ class _MyAppState extends State<HomePage> {
   ];
   
   final List<String> materialTypes = [
-    'Books',
-    'Journals',
+    'Book',
+    'E-book',
+    'Journal',
+    'Magazine',
     'Thesis',
-    'Research Papers',
-    'Magazines',
-    'Digital Resources',
+    'Research Paper',
+    'Reference Material',
   ];
 
   // Perform search based on selected criteria
