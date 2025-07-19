@@ -364,7 +364,6 @@ class _SearchPageState extends State<SearchPage> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildDetailRow('Title', book['title']),
                 _buildDetailRow('Author', book['author']),
                 _buildDetailRow('Subject', book['subject']),
                 _buildDetailRow('Campus', book['campus']),
