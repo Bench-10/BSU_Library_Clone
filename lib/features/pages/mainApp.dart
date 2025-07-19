@@ -267,7 +267,7 @@ class _MyAppState extends State<mainApp> {
             shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
-          title: Text('Logout'),
+          title: Text('Logout', style: GoogleFonts.poppins(fontWeight: FontWeight.w600),),
           content: Text('Are you sure you want to logout?'),
           actions: [
             TextButton(
