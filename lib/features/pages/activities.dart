@@ -246,20 +246,20 @@ class _MyAppState extends State<MyActivityPage> {
                   margin: EdgeInsets.only(top: 8),
                   padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
-                    color: Colors.blue.shade100,
+                    color: const Color.fromARGB(255, 187, 251, 195),
                     borderRadius: BorderRadius.circular(4),
-                    border: Border.all(color: Colors.blue.shade300),
+                    border: Border.all(color: const Color.fromARGB(255, 6, 181, 3)),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(Icons.check_circle, size: 16, color: Colors.blue.shade700),
+                      Icon(Icons.check_circle, size: 16, color: statusColor),
                       SizedBox(width: 4),
                       Text(
                         'Book Returned',
                         style: GoogleFonts.poppins(
                           fontSize: 11,
-                          color: Colors.blue.shade700,
+                          color: const Color.fromARGB(255, 11, 110, 2),
                           fontWeight: FontWeight.w500,
                         ),
                       ),

@@ -99,30 +99,7 @@ class _AdminMainAppState extends State<AdminMainApp> {
                       ),
                     ],
                   ),
-                  // Adminn info in top right
-                  Container(
-                    margin: EdgeInsets.only(right: 20),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.admin_panel_settings,
-                          color: Colors.white,
-                          size: 24,
-                        ),
-                        SizedBox(width: 8),
-                        Text(
-                          displayName,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
-                        ),
-                      ],
-                    ),
-                  ),
+
                 ],
               ),
             ),
@@ -298,12 +275,22 @@ class _AdminMainAppState extends State<AdminMainApp> {
           content: Text('Are you sure you want to logout?'),
           actions: [
             TextButton(
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5), 
+                )
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
               },
               child: Text('Cancel'),
             ),
             TextButton(
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5), 
+                )
+              ),
               onPressed: () {
                 AuthService.logoutUser();
                 Navigator.of(context).pop();

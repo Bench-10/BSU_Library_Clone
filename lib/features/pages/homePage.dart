@@ -497,7 +497,7 @@ class _MyAppState extends State<HomePage> {
                                         height: 20,
                                         child: CircularProgressIndicator(
                                           strokeWidth: 2,
-                                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                          valueColor: AlwaysStoppedAnimation<Color>(const Color.fromARGB(255, 255, 0, 0)),
                                         ),
                                       ),
                                       SizedBox(width: 10),

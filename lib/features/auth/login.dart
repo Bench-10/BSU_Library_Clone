@@ -363,8 +363,8 @@ class _MyHomePageState extends State<MyHomePage> {
                             width: 20,
                             height: 20,
                             child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                              strokeWidth: 3,
+                              valueColor: AlwaysStoppedAnimation<Color>(Colors.red),
                             ),
                           ),
                           SizedBox(width: 10),

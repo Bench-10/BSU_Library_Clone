@@ -119,7 +119,7 @@ class _BorrowRequestsPageState extends State<BorrowRequestsPage> {
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
           color: isSelected ? Colors.red : Colors.white,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(8),
           border: Border.all(
             color: isSelected ? Colors.red : Colors.grey.shade300,
           ),

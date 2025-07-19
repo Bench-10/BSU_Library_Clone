@@ -198,7 +198,6 @@ class BorrowService {
           .where('format', isEqualTo: 'hard_copy')
           .where('status', isEqualTo: 'granted')
           .where('is_returned', isEqualTo: false)
-          .orderBy('granted_at', descending: true)
           .get();
       
       List<Map<String, dynamic>> requests = [];

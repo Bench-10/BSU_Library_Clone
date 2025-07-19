@@ -94,6 +94,10 @@ class _AddBookPageState extends State<AddBookPage> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
+              backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+                shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
               title: Row(
                 children: [
                   Icon(Icons.check_circle, color: Colors.green),
@@ -104,6 +108,13 @@ class _AddBookPageState extends State<AddBookPage> {
               content: Text('Book has been added successfully!'),
               actions: [
                 TextButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 49, 200, 8),
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5), 
+                    )
+                  ),
                   onPressed: () {
                     Navigator.of(context).pop();
                     _clearForm(); 
