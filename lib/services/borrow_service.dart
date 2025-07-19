@@ -36,8 +36,8 @@ class BorrowService {
       // Create borrow request
       await _borrowRequestsCollection.add({
         'user_id': userId,
-        'user_name': userName, // Will be updated when we get user data
-        'user_email': userEmail, // Will be updated when we get user data
+        'user_name': userName, 
+        'user_email': userEmail, 
         'book_id': book['id'],
         'book_title': book['title'],
         'book_author': book['author'],
@@ -45,12 +45,12 @@ class BorrowService {
         'book_campus': book['campus'],
         'book_material_type': book['material_type'],
         'book_series': book['series'],
-        'format': format, // 'pdf' or 'hard_copy'
+        'format': format, 
         'status': 'pending',
         'requested_at': FieldValue.serverTimestamp(),
         'access_end_date': null,
         'granted_at': null,
-        'is_returned': false, // Track if hard copy is returned
+        'is_returned': false, 
       });
 
       return {
@@ -65,7 +65,7 @@ class BorrowService {
     }
   }
 
-  // Get user's borrow requests
+  // Get user borrow requests
   static Future<List<Map<String, dynamic>>> getUserBorrowRequests() async {
     try {
       if (!AuthService.isLoggedIn()) {
@@ -85,7 +85,7 @@ class BorrowService {
         requests.add(requestData);
       }
       
-      // Sort by requested date (newest first)
+      // Sort by requested date
       requests.sort((a, b) {
         if (a['requested_at'] == null) return 1;
         if (b['requested_at'] == null) return -1;
@@ -191,7 +191,7 @@ class BorrowService {
     }
   }
 
-  // Get all returned books (hard copies that are still granted but need to be marked as returned)
+  // Get all returned books
   static Future<List<Map<String, dynamic>>> getReturnedBooks() async {
     try {
       QuerySnapshot requestQuery = await _borrowRequestsCollection

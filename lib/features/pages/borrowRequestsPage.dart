@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import '../../services/borrow_service.dart';
 
 class BorrowRequestsPage extends StatefulWidget {
@@ -25,6 +26,7 @@ class _BorrowRequestsPageState extends State<BorrowRequestsPage> {
       isLoading = true;
     });
 
+
     List<Map<String, dynamic>> requests = await BorrowService.getAllBorrowRequests();
     
     setState(() {
@@ -32,6 +34,7 @@ class _BorrowRequestsPageState extends State<BorrowRequestsPage> {
       isLoading = false;
     });
   }
+
 
   List<Map<String, dynamic>> get filteredRequests {
     if (selectedFilter == 'all') {
@@ -45,6 +48,7 @@ class _BorrowRequestsPageState extends State<BorrowRequestsPage> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 247, 250, 252),
       body: Column(
+
         children: [
           // Filter tabs
           Container(
@@ -52,12 +56,16 @@ class _BorrowRequestsPageState extends State<BorrowRequestsPage> {
             child: Row(
               children: [
                 _buildFilterChip('All', 'all'),
+
                 SizedBox(width: 8),
                 _buildFilterChip('Pending', 'pending'),
+
                 SizedBox(width: 8),
                 _buildFilterChip('Granted', 'granted'),
+
                 SizedBox(width: 8),
                 _buildFilterChip('Rejected', 'rejected'),
+
               ],
             ),
           ),
@@ -140,11 +148,11 @@ class _BorrowRequestsPageState extends State<BorrowRequestsPage> {
     Color statusColor = _getStatusColor(request['status']);
     
     return Card(
-      margin: EdgeInsets.only(bottom: 16),
-      elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+          margin: EdgeInsets.only(bottom: 16),
+          elevation: 2,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
       child: Padding(
         padding: EdgeInsets.all(16),
         child: Column(
@@ -240,8 +248,7 @@ class _BorrowRequestsPageState extends State<BorrowRequestsPage> {
                   SizedBox(width: 12),
                   Expanded(
                     child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red,
+                      style: ElevatedButton.styleFrom(backgroundColor: Colors.red,
                         foregroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
@@ -267,6 +274,7 @@ class _BorrowRequestsPageState extends State<BorrowRequestsPage> {
     return Padding(
       padding: EdgeInsets.only(bottom: 4),
       child: Row(
+
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
@@ -297,12 +305,19 @@ class _BorrowRequestsPageState extends State<BorrowRequestsPage> {
     switch (status) {
       case 'pending':
         return Colors.orange;
+
       case 'granted':
+
         return Colors.green;
+
       case 'rejected':
         return Colors.red;
+
       default:
+
+
         return Colors.grey;
+
     }
   }
 
@@ -325,6 +340,8 @@ class _BorrowRequestsPageState extends State<BorrowRequestsPage> {
       context: context,
       builder: (BuildContext context) {
         return StatefulBuilder(
+
+
           builder: (context, setDialogState) {
             return AlertDialog(
               shape: RoundedRectangleBorder(
@@ -339,17 +356,17 @@ class _BorrowRequestsPageState extends State<BorrowRequestsPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Book: ${request['book_title']}',
-                    style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
-                  ),
-                  Text(
-                    'Student: ${request['user_name']}',
-                    style: GoogleFonts.poppins(),
-                  ),
-                  Text(
-                    'Format: ${request['format'] == 'pdf' ? 'PDF Copy' : 'Hard Copy'}',
-                    style: GoogleFonts.poppins(),
-                  ),
+                        'Book: ${request['book_title']}',
+                        style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
+                      ),
+                      Text(
+                        'Student: ${request['user_name']}',
+                        style: GoogleFonts.poppins(),
+                      ),
+                      Text(
+                        'Format: ${request['format'] == 'pdf' ? 'PDF Copy' : 'Hard Copy'}',
+                        style: GoogleFonts.poppins(),
+                 ),
                   
                   // Only show date picker for hard copy
                   if (isHardCopy) ...[

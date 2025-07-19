@@ -55,7 +55,7 @@ class BookmarkService {
     }
   }
 
-  // Remove a book from user's bookmarks
+  // Remove a book from user bookmarks
   static Future<Map<String, dynamic>> removeBookmark(String bookId) async {
     try {
       if (!AuthService.isLoggedIn()) {

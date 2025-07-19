@@ -5,7 +5,7 @@ class BookService {
   static final CollectionReference _booksCollection = 
       FirebaseFirestore.instance.collection('book_details');
 
-  // 1. Get all books
+  // Get all books
   static Future<List<Map<String, dynamic>>> getAllBooks() async {
     try {
       QuerySnapshot querySnapshot = await _booksCollection.get();
@@ -24,7 +24,7 @@ class BookService {
     }
   }
 
-  // 2. Search books by title
+  // Search books by title
   static Future<List<Map<String, dynamic>>> searchByTitle(String title) async {
     try {
       QuerySnapshot querySnapshot = await _booksCollection
@@ -46,7 +46,7 @@ class BookService {
     }
   }
 
-  // 3. Search books by author
+  // Search books by author
   static Future<List<Map<String, dynamic>>> searchByAuthor(String author) async {
     try {
       QuerySnapshot querySnapshot = await _booksCollection
@@ -67,7 +67,7 @@ class BookService {
     }
   }
 
-  // 4. Get books by campus
+  // Get books by campus
   static Future<List<Map<String, dynamic>>> getBooksByCampus(String campus) async {
     try {
       QuerySnapshot querySnapshot = await _booksCollection
@@ -88,7 +88,7 @@ class BookService {
     }
   }
 
-  // 5. Get books by subject
+  // Get books by subject
   static Future<List<Map<String, dynamic>>> getBooksBySubject(String subject) async {
     try {
       QuerySnapshot querySnapshot = await _booksCollection
@@ -109,7 +109,7 @@ class BookService {
     }
   }
 
-  // 6. Get books by material type
+  // Get books by material type
   static Future<List<Map<String, dynamic>>> getBooksByMaterialType(String materialType) async {
     try {
       QuerySnapshot querySnapshot = await _booksCollection
@@ -130,7 +130,7 @@ class BookService {
     }
   }
 
-  // 7. Search books by series
+  // Search books by series
   static Future<List<Map<String, dynamic>>> searchBySeries(String series) async {
     try {
       QuerySnapshot querySnapshot = await _booksCollection
@@ -170,7 +170,7 @@ class BookService {
         'subject': subject.trim(),
         'series': series.trim(),
         'campus': campus.trim(),
-        'material_type': materialStyle.trim(), // Using material_type to match existing schema
+        'material_type': materialStyle.trim(),
         'created_at': FieldValue.serverTimestamp(),
         'updated_at': FieldValue.serverTimestamp(),
       });
@@ -224,7 +224,7 @@ class BookService {
     }
   }
 
-  // 10. Delete a book (Admin only)
+  // Delete a book (Admin only)
   static Future<Map<String, dynamic>> deleteBook(String bookId) async {
     try {
       await _booksCollection.doc(bookId).delete();

@@ -10,7 +10,7 @@ void main() async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-    // Firebase initialized successfully
+    
   } catch (e) {
     // Firebase initialization error: $e
   }
@@ -80,8 +80,8 @@ class LibraryApp extends StatelessWidget {
   Future<void> _checkFirebaseConnection() async {
     try {
       // Test Firebase connection by trying to access Firestore
-      await Future.delayed(const Duration(seconds: 1)); // Give Firebase time to initialize
-      // Firebase connection check completed
+      await Future.delayed(const Duration(seconds: 1));
+      
     } catch (e) {
       // Firebase connection check failed: $e
       rethrow;

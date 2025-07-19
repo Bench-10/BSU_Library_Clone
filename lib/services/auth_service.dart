@@ -79,7 +79,7 @@ class AuthService {
     }
   }
 
-  // Login user (works for both students and admin)
+  // Login user and admin
   static Future<Map<String, dynamic>> loginUser({
     required String email,
     required String password,
@@ -124,7 +124,7 @@ class AuthService {
     }
   }
 
-  // Check if current user is admin
+  // Check if    current user is admin
   static bool isAdmin() {
     if (!isLoggedIn()) return false;
     return _currentUserData?['user_type'] == 'admin';
@@ -152,12 +152,12 @@ class AuthService {
     _currentUserData = null;
   }
 
-  // Check if user is logged in
+  // Check if uuser is logged in
   static bool isLoggedIn() {
     return _currentUserId != null && _currentUserData != null;
   }
 
-  // Get user data by ID
+  // Get user data by Id
   static Future<Map<String, dynamic>?> getUserData(String userId) async {
     try {
       DocumentSnapshot userDoc = await _usersCollection.doc(userId).get();
@@ -188,7 +188,7 @@ class AuthService {
       if (updates.isNotEmpty) {
         await _usersCollection.doc(userId).update(updates);
         
-        // Update current user data if it's the logged-in user
+        // Update current user data if it isthe logged-in user
         if (userId == _currentUserId) {
           _currentUserData?.addAll(updates);
         }
