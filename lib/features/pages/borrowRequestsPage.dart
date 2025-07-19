@@ -189,6 +189,7 @@ class _BorrowRequestsPageState extends State<BorrowRequestsPage> {
             _buildDetailRow('Author', request['book_author']),
             _buildDetailRow('Subject', request['book_subject']),
             _buildDetailRow('Campus', request['book_campus']),
+            _buildDetailRow('Format', request['format'] == 'pdf' ? 'PDF Copy' : 'Hard Copy'),
             
             SizedBox(height: 12),
             
@@ -318,6 +319,7 @@ class _BorrowRequestsPageState extends State<BorrowRequestsPage> {
 
   void _showGrantAccessDialog(Map<String, dynamic> request) {
     DateTime selectedDate = DateTime.now().add(Duration(days: 30)); // Default 30 days
+    bool isHardCopy = request['format'] == 'hard_copy';
     
     showDialog(
       context: context,
@@ -326,7 +328,7 @@ class _BorrowRequestsPageState extends State<BorrowRequestsPage> {
           builder: (context, setDialogState) {
             return AlertDialog(
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(8),
               ),
               title: Text(
                 'Grant Access',
@@ -344,44 +346,77 @@ class _BorrowRequestsPageState extends State<BorrowRequestsPage> {
                     'Student: ${request['user_name']}',
                     style: GoogleFonts.poppins(),
                   ),
-                  SizedBox(height: 20),
                   Text(
-                    'Set access end date:',
-                    style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
+                    'Format: ${request['format'] == 'pdf' ? 'PDF Copy' : 'Hard Copy'}',
+                    style: GoogleFonts.poppins(),
                   ),
-                  SizedBox(height: 10),
-                  InkWell(
-                    onTap: () async {
-                      DateTime? picked = await showDatePicker(
-                        context: context,
-                        initialDate: selectedDate,
-                        firstDate: DateTime.now(),
-                        lastDate: DateTime.now().add(Duration(days: 365)),
-                      );
-                      if (picked != null) {
-                        setDialogState(() {
-                          selectedDate = picked;
-                        });
-                      }
-                    },
-                    child: Container(
+                  
+                  // Only show date picker for hard copy
+                  if (isHardCopy) ...[
+                    SizedBox(height: 20),
+                    Text(
+                      'Set return date:',
+                      style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
+                    ),
+                    SizedBox(height: 10),
+                    InkWell(
+                      onTap: () async {
+                        DateTime? picked = await showDatePicker(
+                          context: context,
+                          initialDate: selectedDate,
+                          firstDate: DateTime.now(),
+                          lastDate: DateTime.now().add(Duration(days: 365)),
+                        );
+                        if (picked != null) {
+                          setDialogState(() {
+                            selectedDate = picked;
+                          });
+                        }
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '${selectedDate.day}/${selectedDate.month}/${selectedDate.year}',
+                              style: GoogleFonts.poppins(),
+                            ),
+                            Icon(Icons.calendar_today),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ] else ...[
+                    SizedBox(height: 10),
+                    Container(
                       padding: EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey),
-                        borderRadius: BorderRadius.circular(8),
+                        color: Colors.blue.shade50,
+                        borderRadius: BorderRadius.circular(6),
+                        border: Border.all(color: Colors.blue.shade200),
                       ),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            '${selectedDate.day}/${selectedDate.month}/${selectedDate.year}',
-                            style: GoogleFonts.poppins(),
+                          Icon(Icons.info, color: Colors.blue, size: 20),
+                          SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              'PDF access doesn\'t require a return date',
+                              style: GoogleFonts.poppins(
+                                fontSize: 13,
+                                color: Colors.blue.shade700,
+                              ),
+                            ),
                           ),
-                          Icon(Icons.calendar_today),
                         ],
                       ),
                     ),
-                  ),
+                  ],
                 ],
               ),
               actions: [
@@ -409,7 +444,7 @@ class _BorrowRequestsPageState extends State<BorrowRequestsPage> {
                   ),
                   onPressed: () {
                     Navigator.of(context).pop();
-                    _grantAccess(request['request_id'], selectedDate);
+                    _grantAccess(request['request_id'], isHardCopy ? selectedDate : null);
                   },
                   child: Text(
                     'Grant Access',
@@ -424,7 +459,7 @@ class _BorrowRequestsPageState extends State<BorrowRequestsPage> {
     );
   }
 
-  Future<void> _grantAccess(String requestId, DateTime accessEndDate) async {
+  Future<void> _grantAccess(String requestId, DateTime? accessEndDate) async {
     Map<String, dynamic> result = await BorrowService.grantAccess(requestId, accessEndDate);
     
     if (result['success']) {

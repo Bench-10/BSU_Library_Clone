@@ -6,7 +6,7 @@ class BorrowService {
       FirebaseFirestore.instance.collection('borrow_requests');
 
   // Submit a borrow request
-  static Future<Map<String, dynamic>> requestBook(Map<String, dynamic> book) async {
+  static Future<Map<String, dynamic>> requestBook(Map<String, dynamic> book, String format) async {
     try {
       if (!AuthService.isLoggedIn()) {
         return {
@@ -45,10 +45,12 @@ class BorrowService {
         'book_campus': book['campus'],
         'book_material_type': book['material_type'],
         'book_series': book['series'],
+        'format': format, // 'pdf' or 'hard_copy'
         'status': 'pending',
         'requested_at': FieldValue.serverTimestamp(),
         'access_end_date': null,
         'granted_at': null,
+        'is_returned': false, // Track if hard copy is returned
       });
 
       return {
@@ -123,6 +125,22 @@ class BorrowService {
     }
   }
 
+  // Check if hard copy is available for a book
+  static Future<bool> isHardCopyAvailable(String bookId) async {
+    try {
+      QuerySnapshot requestQuery = await _borrowRequestsCollection
+          .where('book_id', isEqualTo: bookId)
+          .where('format', isEqualTo: 'hard_copy')
+          .where('status', isEqualTo: 'granted')
+          .where('is_returned', isEqualTo: false)
+          .get();
+      
+      return requestQuery.docs.isEmpty; // Available if no unreturned hard copies
+    } catch (e) {
+      return true; // Default to available if error
+    }
+  }
+
   // Admin functions
   
   // Get all pending borrow requests for admin
@@ -147,13 +165,19 @@ class BorrowService {
   }
 
   // Grant access to a book request
-  static Future<Map<String, dynamic>> grantAccess(String requestId, DateTime accessEndDate) async {
+  static Future<Map<String, dynamic>> grantAccess(String requestId, DateTime? accessEndDate) async {
     try {
-      await _borrowRequestsCollection.doc(requestId).update({
+      Map<String, dynamic> updateData = {
         'status': 'granted',
-        'access_end_date': Timestamp.fromDate(accessEndDate),
         'granted_at': FieldValue.serverTimestamp(),
-      });
+      };
+      
+      // Only set access end date for hard copy requests
+      if (accessEndDate != null) {
+        updateData['access_end_date'] = Timestamp.fromDate(accessEndDate);
+      }
+      
+      await _borrowRequestsCollection.doc(requestId).update(updateData);
 
       return {
         'success': true,
@@ -163,6 +187,50 @@ class BorrowService {
       return {
         'success': false,
         'message': 'Error granting access: $e'
+      };
+    }
+  }
+
+  // Get all returned books (hard copies that are still granted but need to be marked as returned)
+  static Future<List<Map<String, dynamic>>> getReturnedBooks() async {
+    try {
+      QuerySnapshot requestQuery = await _borrowRequestsCollection
+          .where('format', isEqualTo: 'hard_copy')
+          .where('status', isEqualTo: 'granted')
+          .where('is_returned', isEqualTo: false)
+          .orderBy('granted_at', descending: true)
+          .get();
+      
+      List<Map<String, dynamic>> requests = [];
+      for (var doc in requestQuery.docs) {
+        Map<String, dynamic> requestData = doc.data() as Map<String, dynamic>;
+        requestData['request_id'] = doc.id;
+        requests.add(requestData);
+      }
+      
+      return requests;
+    } catch (e) {
+      print('Error getting returned books: $e');
+      return [];
+    }
+  }
+
+  // Mark a hard copy book as returned
+  static Future<Map<String, dynamic>> markAsReturned(String requestId) async {
+    try {
+      await _borrowRequestsCollection.doc(requestId).update({
+        'is_returned': true,
+        'returned_at': FieldValue.serverTimestamp(),
+      });
+
+      return {
+        'success': true,
+        'message': 'Book marked as returned successfully'
+      };
+    } catch (e) {
+      return {
+        'success': false,
+        'message': 'Error marking book as returned: $e'
       };
     }
   }

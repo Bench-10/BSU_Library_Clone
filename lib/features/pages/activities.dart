@@ -206,6 +206,15 @@ class _MyAppState extends State<MyActivityPage> {
                   color: Colors.grey.shade600,
                 ),
               ),
+            if (request['format'] != null)
+              Text(
+                'Format: ${request['format'] == 'pdf' ? 'PDF Copy' : 'Hard Copy'}',
+                style: GoogleFonts.poppins(
+                  fontSize: 13,
+                  color: Colors.grey.shade600,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
             
             SizedBox(height: 8),
             
@@ -229,6 +238,60 @@ class _MyAppState extends State<MyActivityPage> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
+            
+            // Return status for hard copy books
+            if (request['format'] == 'hard_copy' && request['status'] == 'granted') ...[
+              if (request['is_returned'] == true)
+                Container(
+                  margin: EdgeInsets.only(top: 8),
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: Colors.blue.shade100,
+                    borderRadius: BorderRadius.circular(4),
+                    border: Border.all(color: Colors.blue.shade300),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.check_circle, size: 16, color: Colors.blue.shade700),
+                      SizedBox(width: 4),
+                      Text(
+                        'Book Returned',
+                        style: GoogleFonts.poppins(
+                          fontSize: 11,
+                          color: Colors.blue.shade700,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              else
+                Container(
+                  margin: EdgeInsets.only(top: 8),
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: Colors.orange.shade100,
+                    borderRadius: BorderRadius.circular(4),
+                    border: Border.all(color: Colors.orange.shade300),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.schedule, size: 16, color: Colors.orange.shade700),
+                      SizedBox(width: 4),
+                      Text(
+                        'Awaiting Return',
+                        style: GoogleFonts.poppins(
+                          fontSize: 11,
+                          color: Colors.orange.shade700,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+            ],
           ],
         ),
       ),

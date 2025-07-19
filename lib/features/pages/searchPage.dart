@@ -32,6 +32,7 @@ class _SearchPageState extends State<SearchPage> {
   bool isLoading = false;
   Map<String, bool> bookmarkStatus = {};
   Map<String, String?> borrowRequestStatus = {};
+  Map<String, bool> hardCopyAvailability = {};
 
   @override
   void initState() {
@@ -42,6 +43,19 @@ class _SearchPageState extends State<SearchPage> {
       searchResults = widget.searchResults!;
       _loadBookmarkStatus();
       _loadBorrowRequestStatus();
+      _loadHardCopyAvailability();
+    }
+  }
+
+  // Load hard copy availability for all books
+  Future<void> _loadHardCopyAvailability() async {
+    for (var book in searchResults) {
+      if (book['id'] != null) {
+        bool isAvailable = await BorrowService.isHardCopyAvailable(book['id']);
+        setState(() {
+          hardCopyAvailability[book['id']] = isAvailable;
+        });
+      }
     }
   }
 
@@ -106,7 +120,7 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   // Request to borrow a book
-  Future<void> _requestBook(Map<String, dynamic> book) async {
+  Future<void> _requestBook(Map<String, dynamic> book, String format) async {
     if (!AuthService.isLoggedIn()) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Please login to request books')),
@@ -114,20 +128,184 @@ class _SearchPageState extends State<SearchPage> {
       return;
     }
 
-    Map<String, dynamic> result = await BorrowService.requestBook(book);
+    Map<String, dynamic> result = await BorrowService.requestBook(book, format);
 
     if (result['success']) {
       setState(() {
         borrowRequestStatus[book['id']] = 'pending';
       });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(result['message'])),
-      );
+      
+      // Show different confirmation messages based on format
+      if (format == 'pdf') {
+        _showPdfConfirmationDialog();
+      } else {
+        _showHardCopyConfirmationDialog();
+      }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(result['message'])),
       );
     }
+  }
+
+  void _showFormatSelectionDialog(Map<String, dynamic> book) {
+    bool hardCopyAvailable = hardCopyAvailability[book['id']] ?? true;
+    
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          title: Text(
+            'Select Format',
+            style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'How would you like to borrow this book?',
+                style: GoogleFonts.poppins(fontSize: 14),
+              ),
+              SizedBox(height: 20),
+              
+              // PDF Option
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    foregroundColor: Colors.white,
+                    padding: EdgeInsets.symmetric(vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    _requestBook(book, 'pdf');
+                  },
+                  child: Text(
+                    'PDF Copy',
+                    style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
+                  ),
+                ),
+              ),
+              
+              SizedBox(height: 12),
+              
+              // Hard Copy Option
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: hardCopyAvailable ? Colors.green : Colors.grey,
+                    foregroundColor: Colors.white,
+                    padding: EdgeInsets.symmetric(vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                  ),
+                  onPressed: hardCopyAvailable ? () {
+                    Navigator.of(context).pop();
+                    _requestBook(book, 'hard_copy');
+                  } : null,
+                  child: Text(
+                    hardCopyAvailable ? 'Hard Copy' : 'Hard Copy (Unavailable)',
+                    style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(
+                'Cancel',
+                style: GoogleFonts.poppins(color: Colors.red),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showPdfConfirmationDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          title: Text(
+            'PDF Request Submitted',
+            style: GoogleFonts.poppins(
+              fontWeight: FontWeight.w500,
+              fontSize: 16,
+            ),
+          ),
+          content: Text(
+            'Your PDF copy request has been submitted. You will be notified via email once approved.',
+            style: GoogleFonts.poppins(fontSize: 14),
+          ),
+          actions: [
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+              ),
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showHardCopyConfirmationDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          title: Text(
+            'Hard Copy Request Submitted',
+            style: GoogleFonts.poppins(
+              fontWeight: FontWeight.w500,
+              fontSize: 16,
+            ),
+          ),
+          content: Text(
+            'Your hard copy request has been submitted. The admin will set a return date upon approval. You will be notified via email.',
+            style: GoogleFonts.poppins(fontSize: 14),
+          ),
+          actions: [
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+              ),
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -459,12 +637,12 @@ class _SearchPageState extends State<SearchPage> {
               borderRadius: BorderRadius.circular(6),
             ),
           ),
-          onPressed: () =>{
+                      onPressed: () =>{
             showDialog(context: context,
               builder: (BuildContext borrowConfirmition) {
                   return AlertDialog(
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),  
+                      borderRadius: BorderRadius.circular(8),  
                     ),
                     title: Text(
                       'Are you sure you want to borrow this book?',
@@ -477,8 +655,7 @@ class _SearchPageState extends State<SearchPage> {
                       ElevatedButton(
                         onPressed: () => {
                           Navigator.of(borrowConfirmition).pop(),
-                          _requestBook(book),
-                          afterBorrowConfirmation(),
+                          _showFormatSelectionDialog(book),
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color.fromARGB(255, 3, 185, 3),
@@ -509,9 +686,7 @@ class _SearchPageState extends State<SearchPage> {
                   );
               }
             )
-          },
-          
-          child: Text(
+          },          child: Text(
             'Borrow',
             style: GoogleFonts.poppins(
               fontSize: 10,
@@ -522,46 +697,5 @@ class _SearchPageState extends State<SearchPage> {
       );
     }
   }
-
-
-  void afterBorrowConfirmation(){
-    showDialog(
-      context: context,
-      builder: (BuildContext borrowConfirmationAfter) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          title: Text(
-            'Please wait while the admin proccesses your borrowing request. You will be notified in your g-suite account once it is approved.',
-            style: GoogleFonts.poppins(
-              fontWeight: FontWeight.w500,
-              fontSize: 14,
-            ),
-          ),
-
-          actions: [
-            ElevatedButton(onPressed: () => Navigator.pop(borrowConfirmationAfter), 
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color.fromARGB(255, 3, 185, 3),
-              foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5), 
-              )
-              
-            ),
-            child: Text('Ok'),
-            )
-          ],
-        );
-      },
-    );
-
-  }
-
-
-
-
-
 
 }

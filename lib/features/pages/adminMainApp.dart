@@ -4,6 +4,7 @@ import '../../services/auth_service.dart';
 import '../auth/login.dart';
 import 'addBookPage.dart';
 import 'borrowRequestsPage.dart';
+import 'returnedBooksPage.dart';
 
 class AdminMainApp extends StatefulWidget {
   const AdminMainApp({super.key});
@@ -19,6 +20,7 @@ class _AdminMainAppState extends State<AdminMainApp> {
   static final List<Widget> _pages = <Widget>[
     AddBookPage(),     
     BorrowRequestsPage(),
+    ReturnedBooksPage(),
   ];
 
   void _onItemTapped(int index) {
@@ -225,6 +227,20 @@ class _AdminMainAppState extends State<AdminMainApp> {
               Navigator.pop(context);
             },
 
+            contentPadding: EdgeInsets.fromLTRB(35, 7, 0, 7),
+          ),
+
+          ListTile(
+            title: Text('Returned Books',
+              style: GoogleFonts.poppins(
+                color: Colors.white,
+              ),
+            ),
+            selected: _selectedIndex == 2,
+            onTap: () {
+              _onItemTapped(2);
+              Navigator.pop(context);
+            },
             contentPadding: EdgeInsets.fromLTRB(35, 7, 0, 7),
           ),
 
