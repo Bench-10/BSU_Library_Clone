@@ -43,3 +43,27 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Additional Android build artifacts
+android/app/build/
+android/build/
+android/.gradle/
+android/gradle/
+android/app/src/main/res/drawable-*
+android/app/src/main/res/mipmap-*
+
+# Flutter build artifacts
+/build/
+build/
+*.dill
+*.track.dill
+
+# Large binary files that should not be in git
+*.apk
+*.aab
+*.so
+*.tar.gz
+
+# Git LFS objects (these should not be tracked directly)
+.git/lfs/
+.git/objects/
