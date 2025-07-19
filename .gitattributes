@@ -1,14 +1,36 @@
-android/app/build/intermediates/merged_native_libs/debug/mergeDebugNativeLibs/out/lib/arm64-v8a/libflutter.so
+android/app/build/intermediates/merged_native_libs/debug/mergeDebugNativeLibs/out/lib/arm64-v8a/libflutter.so filter=lfs diff=lfs merge=lfs -text
  filter=lfs diff=lfs merge=lfs -text
 android/app/build/intermediates/merged_native_libs/debug/mergeDebugNativeLibs/out/lib/arm64-v8a/libVkLayer_khronos_validation.so filter=lfs diff=lfs merge=lfs -text
-android/app/build/intermediates/intermediary_bundle/debug/packageDebugBundle/intermediary-bundle.aab
-android/app/build/intermediates/module_bundle/debug/buildDebugPreBundle/base.zip
+android/app/build/intermediates/intermediary_bundle/debug/packageDebugBundle/intermediary-bundle.aab filter=lfs diff=lfs merge=lfs -text
+android/app/build/intermediates/module_bundle/debug/buildDebugPreBundle/base.zip filter=lfs diff=lfs merge=lfs -text
 android/app/build/intermediates/incremental/debug-mergeJavaRes/zip-cache/TANFu1j8+rwxuyMBX1QQm+02QbA= filter=lfs diff=lfs merge=lfs -text
 .git/objects/c2/58332d56444e8ef307e4b42706be4ea0038486 filter=lfs diff=lfs merge=lfs -text
 android/app/build/intermediates/merged_native_libs/release/mergeReleaseNativeLibs/out/lib/arm64-v8a/libflutter.so filter=lfs diff=lfs merge=lfs -text
-android/app/build/intermediates/merged_native_libs/release/mergeReleaseNativeLibs/out/lib/x86_64/libflutter.so
+android/app/build/intermediates/merged_native_libs/release/mergeReleaseNativeLibs/out/lib/x86_64/libflutter.so filter=lfs diff=lfs merge=lfs -text
 android/app/build/intermediates/merged_native_libs/release/mergeReleaseNativeLibs/out/lib/armeabi-v7a/libflutter.so filter=lfs diff=lfs merge=lfs -text
 .git/objects/08/7290e1ee2f6a97b0c91aad154e46987999f8ab filter=lfs diff=lfs merge=lfs -text
+.git/lfs/objects/67/57/67573fab1b9c31f2a59c8eaba0125dfe64c304f798cc399c20514981cabd1963 filter=lfs diff=lfs merge=lfs -text
+.git/lfs/objects/96/1b/961b03448e5673b90434cdcc66a2f65bf30103bea23ef6c15d2c85632b4c60f0 filter=lfs diff=lfs merge=lfs -text
+.git/lfs/objects/11/c6/11c66bd6e34efe5f7772eb722978fed397da64959650b52c233c6cc3b74b840b filter=lfs diff=lfs merge=lfs -text
+.git/lfs/objects/f1/6d/f16d0ecde218bd4c706d81bf0f4029a833d87a03d8c171751f2909dfd5ccf9bd filter=lfs diff=lfs merge=lfs -text
+.git/objects/ad/95ce5a2628ea2909400c2c5c2791931853cba7 filter=lfs diff=lfs merge=lfs -text
+android/app/build/outputs/flutter-apk/app-debug.apk filter=lfs diff=lfs merge=lfs -text
+android/app/build/outputs/apk/debug/app-debug.apk filter=lfs diff=lfs merge=lfs -text
+.git/objects/ce/a63f9395bcc7703ec8351ab42b893a55eda8c2 filter=lfs diff=lfs merge=lfs -text
+.git/objects/68/7b4b5e78844d647e1ae258e6fe569d8a7e55f0 filter=lfs diff=lfs merge=lfs -text
+android/app/build/outputs/bundle/debug/app-debug.aab filter=lfs diff=lfs merge=lfs -text
+.git/objects/f1/8ddeab7e7b2711293b2cd0eaabc4f2c82e3290 filter=lfs diff=lfs merge=lfs -text
+.git/objects/be/f1be77fa242698585079bc135eb2f01ee37790 filter=lfs diff=lfs merge=lfs -text
+build/5ed1ec56e46357ec5ad2faed02821e03.cache.dill.track.dill filter=lfs diff=lfs merge=lfs -text
+android/app/build/intermediates/flutter/debug/flutter_assets/kernel_blob.bin filter=lfs diff=lfs merge=lfs -text
+android/app/build/intermediates/assets/debug/mergeDebugAssets/flutter_assets/kernel_blob.bin filter=lfs diff=lfs merge=lfs -text
+.git/objects/da/ec095ab7f61c3189cebe0f9b55bc51b86c63e9 filter=lfs diff=lfs merge=lfs -text
+.git/objects/ce/5e5cabc7fbe4e854c212887446ca9bb74daf34 filter=lfs diff=lfs merge=lfs -text
+.git/objects/33/71e1302478a5115a4ee41e9b22309d5cfa9c5f filter=lfs diff=lfs merge=lfs -text
+.git/objects/4e/88282e44ea4fd66b823d09230ac7db7b5a30fb filter=lfs diff=lfs merge=lfs -text
+.git/objects/3f/d0e7b2f90f8e7d148b6d960fe4fef9ccadeba9 filter=lfs diff=lfs merge=lfs -text
+.git/objects/e6/76727b8a388453febfd0cffd8734bcd2ab3a59 filter=lfs diff=lfs merge=lfs -text
+android/app/build/intermediates/stripped_native_libs/debug/stripDebugDebugSymbols/out/lib/arm64-v8a/libflutter.so filter=lfs diff=lfs merge=lfs -text
 /android/app/build/intermediates/assets/debug/mergeDebugAssets/flutter_assets/kernel_blob.bin filter=lfs diff=lfs merge=lfs -text
 /android/app/build/intermediates/flutter/debug/flutter_assets/kernel_blob.bin filter=lfs diff=lfs merge=lfs -text
 /android/app/build/intermediates/incremental/debug-mergeJavaRes/zip-cache/CZ26k+OMZCHbn2f6H1ixID+4OGs= filter=lfs diff=lfs merge=lfs -text
