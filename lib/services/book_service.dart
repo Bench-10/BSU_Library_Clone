@@ -163,7 +163,7 @@ class BookService {
     required String materialStyle,
   }) async {
     try {
-      // Add the book to Firestore (using the same collection as existing books)
+      // Add the book to Firestore
       DocumentReference bookDoc = await _booksCollection.add({
         'author': author.trim(),
         'title': title.trim(),
@@ -220,23 +220,6 @@ class BookService {
       return {
         'success': false,
         'message': 'Error updating book: $e'
-      };
-    }
-  }
-
-  // Delete a book (Admin only)
-  static Future<Map<String, dynamic>> deleteBook(String bookId) async {
-    try {
-      await _booksCollection.doc(bookId).delete();
-      
-      return {
-        'success': true,
-        'message': 'Book deleted successfully'
-      };
-    } catch (e) {
-      return {
-        'success': false,
-        'message': 'Error deleting book: $e'
       };
     }
   }

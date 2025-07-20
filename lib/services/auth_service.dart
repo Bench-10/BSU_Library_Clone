@@ -22,63 +22,6 @@ class AuthService {
     return digest.toString();
   }
 
-  // Register a new user
-  static Future<Map<String, dynamic>> registerUser({
-    required String email,
-    required String password,
-    required String fullName,
-    required String srCode,
-    required String contactInfo,
-  }) async {
-    try {
-      // Check if user already exists
-      QuerySnapshot existingUser = await _usersCollection
-          .where('email', isEqualTo: email.toLowerCase())
-          .get();
-      
-      if (existingUser.docs.isNotEmpty) {
-        return {
-          'success': false,
-          'message': 'User with this email already exists'
-        };
-      }
-
-      
-      QuerySnapshot existingSrCode = await _usersCollection
-          .where('sr_code', isEqualTo: srCode)
-          .get();
-      
-      if (existingSrCode.docs.isNotEmpty) {
-        return {
-          'success': false,
-          'message': 'User with this SR code already exists'
-        };
-      }
-
-      // Create new user
-      DocumentReference userDoc = await _usersCollection.add({
-        'email': email.toLowerCase(),
-        'password': _hashPassword(password),
-        'full_name': fullName,
-        'sr_code': srCode,
-        'contact_info': contactInfo,
-        'created_at': FieldValue.serverTimestamp(),
-        'last_login': null,
-      });
-
-      return {
-        'success': true,
-        'message': 'User registered successfully',
-        'user_id': userDoc.id
-      };
-    } catch (e) {
-      return {
-        'success': false,
-        'message': 'Error registering user: $e'
-      };
-    }
-  }
-
   // Login user and admin
   static Future<Map<String, dynamic>> loginUser({
     required String email,
@@ -195,32 +138,5 @@ class AuthService {
       return null;
     }
   }
-
-  // Update user profile
-  static Future<bool> updateUserProfile({
-    required String userId,
-    String? fullName,
-    String? contactInfo,
-  }) async {
-    try {
-      Map<String, dynamic> updates = {};
-      
-      if (fullName != null) updates['full_name'] = fullName;
-      if (contactInfo != null) updates['contact_info'] = contactInfo;
-      
-      if (updates.isNotEmpty) {
-        await _usersCollection.doc(userId).update(updates);
-        
-        // Update current user data if it isthe logged-in user
-        if (userId == _currentUserId) {
-          _currentUserData?.addAll(updates);
-        }
-      }
-      
-      return true;
-    } catch (e) {
-      print('Error updating user profile: $e');
-      return false;
-    }
-  }
+  
 }

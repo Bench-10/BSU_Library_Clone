@@ -38,7 +38,7 @@ class LibraryApp extends StatelessWidget {
                     CircularProgressIndicator(),
                     SizedBox(height: 20),
                     Text('Connecting to Firebase...'),
-                  ],
+                  ],  
                 ),
               ),
             );
