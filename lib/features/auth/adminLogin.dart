@@ -27,6 +27,8 @@ class _AdminLoginState extends State<AdminLogin> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 247, 250, 252),
+      resizeToAvoidBottomInset: false,
+      
       appBar: AppBar(
         iconTheme: IconThemeData(
           color: Colors.white,
@@ -51,7 +53,8 @@ class _AdminLoginState extends State<AdminLogin> {
             ),
             Center(
               child: Container(
-                height: 75,
+                margin: EdgeInsets.only(top: 30),
+                height: 65,
                 color: const Color.fromARGB(188, 185, 0, 0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -75,7 +78,7 @@ class _AdminLoginState extends State<AdminLogin> {
                         Text(
                           'BatStateU',
                           style: GoogleFonts.merriweather(
-                            fontSize: 25,
+                            fontSize: 20,
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                           ),
@@ -96,24 +99,27 @@ class _AdminLoginState extends State<AdminLogin> {
           ],
         ),
       ),
-      body: Center(
-        child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-          padding: EdgeInsets.symmetric(horizontal: 35, vertical: 30),
-          decoration: BoxDecoration(
-            color: const Color.fromARGB(255, 255, 255, 255),
-            borderRadius: BorderRadius.all(Radius.circular(15)),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.2),
-                spreadRadius: 2,
-                blurRadius: 5,
-                offset: Offset(2, 3),
-              )
-            ]
-          ),
-          width: 420,
-          child: Column(
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Center(
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                padding: EdgeInsets.symmetric(horizontal: 35, vertical: 30),
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 255, 255, 255),
+                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                      offset: Offset(2, 3),
+                    )
+                  ]
+                ),
+                width: 420,
+                child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Icon(
@@ -232,34 +238,29 @@ class _AdminLoginState extends State<AdminLogin> {
                         );
                       } else {
                      
-                        // Show enhanced error dialog with debug info
+                        // Show error dialog
                         showDialog(
                           context: context,
                           builder: (BuildContext dialogContext) {
                             return AlertDialog(
-                              title: Text('Login Failed'),
-                              content: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(result['message']),
-                                  SizedBox(height: 10),
-                                  Text(
-                                    'Debug Info:',
-                                    style: TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  Text('Email: ${_emailController.text.trim()}'),
-                                  Text('Expected: admin@batstate-u.edu.ph'),
-                                  Text('Password: ${_passwordController.text.trim()}'),
-                                  Text('Expected: admin123'),
-                                ],
+                              backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+                                shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
                               ),
+                              title: Text('Login Failed', style: GoogleFonts.poppins(fontWeight: FontWeight.w600, color: Colors.red, fontSize: 18,),),
+                              content: Text(result['message']),
                               actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(dialogContext).pop();
-                                  },
-                                  child: Text('OK'),
+
+                                ElevatedButton(
+                                  onPressed: () => Navigator.of(dialogContext).pop(),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.red,
+                                    foregroundColor: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(3),
+                                    )
+                                  ),
+                                  child: Text('Try again', style: GoogleFonts.poppins( fontWeight: FontWeight.w600)),
                                 ),
                               ],
                             );
@@ -306,8 +307,11 @@ class _AdminLoginState extends State<AdminLogin> {
                 ),
               ),
             ],
+                ),
+              ),
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

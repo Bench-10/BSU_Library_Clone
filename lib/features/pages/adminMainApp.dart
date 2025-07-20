@@ -40,7 +40,7 @@ class _AdminMainAppState extends State<AdminMainApp> {
       iconTheme: IconThemeData(
         color: Colors.white,
       ),
-      toolbarHeight: 90,
+      toolbarHeight: 75,
       backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       flexibleSpace: Stack(
         fit: StackFit.expand,
@@ -60,7 +60,8 @@ class _AdminMainAppState extends State<AdminMainApp> {
           ),
           Center(
             child: Container(
-              height: 75,
+              margin: EdgeInsets.only(top: 20),
+              height: 70,
               color: const Color.fromARGB(188, 185, 0, 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -86,7 +87,7 @@ class _AdminMainAppState extends State<AdminMainApp> {
                           Text(
                             'BatStateU',
                             style: GoogleFonts.merriweather(
-                              fontSize: 25,
+                              fontSize: 17,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
                             ),

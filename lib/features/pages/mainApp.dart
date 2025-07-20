@@ -53,7 +53,7 @@ class _MyAppState extends State<mainApp> {
       iconTheme: IconThemeData(
         color: Colors.white,
       ),
-      toolbarHeight: 90,
+      toolbarHeight: 65,
       backgroundColor: Color.fromARGB(255, 185, 0, 0),
       flexibleSpace: Center(
         child: Container(
@@ -63,13 +63,13 @@ class _MyAppState extends State<mainApp> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
-                    width: 55,
-                    height: 55,
+                    width: 50,
+                    height: 50,
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         image: AssetImage('assets/images/BatStateU-NEU-Logo.png'),
@@ -79,14 +79,14 @@ class _MyAppState extends State<mainApp> {
                   ),
                   SizedBox(width: 7),
                   Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         'BatStateU',
                         style: GoogleFonts.merriweather(
                           color: Colors.white,
-                          fontSize: 20,
+                          fontSize: 17,
                           fontWeight: FontWeight.w600,
                         ),
                         textAlign: TextAlign.left,
@@ -95,16 +95,18 @@ class _MyAppState extends State<mainApp> {
                         'Library',
                         style: GoogleFonts.poppins(
                           color: Colors.white,
-                          fontSize: 14,
+                          fontSize: 10,
                         ),
                         textAlign: TextAlign.left,
                       ),
+
+                      SizedBox(height: 5,)
                     ],
                   )
                 ],
               ),
               Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
@@ -122,6 +124,8 @@ class _MyAppState extends State<mainApp> {
                       fontSize: 11,
                     )
                   ),
+
+                  SizedBox(height: 5,)
                 ],
               )
             ],

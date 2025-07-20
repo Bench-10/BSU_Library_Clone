@@ -124,7 +124,7 @@ class _BorrowRequestsPageState extends State<BorrowRequestsPage> {
         });
       },
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: EdgeInsets.symmetric(horizontal: 14, vertical: 6),
         decoration: BoxDecoration(
           color: isSelected ? Colors.red : Colors.white,
           borderRadius: BorderRadius.circular(8),
@@ -137,7 +137,7 @@ class _BorrowRequestsPageState extends State<BorrowRequestsPage> {
           style: GoogleFonts.poppins(
             color: isSelected ? Colors.white : Colors.grey.shade700,
             fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-            fontSize: 14,
+            fontSize: 11,
           ),
         ),
       ),

@@ -130,20 +130,43 @@ class AuthService {
     return _currentUserData?['user_type'] == 'admin';
   }
 
-  // Admin login (same as regular login but with admin check)
+  // Admin login with hardcoded credentials
   static Future<Map<String, dynamic>> adminLogin({
     required String email,
     required String password,
   }) async {
-    
-    
-    Map<String, dynamic> result = await loginUser(
-      email: email,
-      password: password,
-    );
-
-  
-    return result;
+    try {
+      // Hardcoded admin credentials
+      const String adminEmail = 'admin@batstate-u.edu.ph';
+      const String adminPassword = 'admin123';
+      
+      if (email.toLowerCase().trim() == adminEmail && password == adminPassword) {
+        // Set current user as admin
+        _currentUserId = 'admin';
+        _currentUserData = {
+          'id': 'admin',
+          'email': adminEmail,
+          'full_name': 'System Administrator',
+          'user_type': 'admin',
+        };
+        
+        return {
+          'success': true,
+          'message': 'Admin login successful',
+          'user_data': _currentUserData
+        };
+      } else {
+        return {
+          'success': false,
+          'message': 'Invalid admin credentials'
+        };
+      }
+    } catch (e) {
+      return {
+        'success': false,
+        'message': 'Error during admin login: $e'
+      };
+    }
   }
 
   // Logout user

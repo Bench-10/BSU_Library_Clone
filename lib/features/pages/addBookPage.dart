@@ -159,11 +159,11 @@ class _AddBookPageState extends State<AddBookPage> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 247, 250, 252),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(20),
+        padding: EdgeInsets.fromLTRB(15, 35, 15, 15),
         child: Center(
           child: Container(
             
-            padding: EdgeInsets.symmetric(horizontal: 35, vertical: 30),
+            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(15),

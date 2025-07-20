@@ -48,7 +48,7 @@ class _ReturnedBooksPageState extends State<ReturnedBooksPage> {
                 Text(
                   'Returned Books Confirmation',
                   style: GoogleFonts.poppins(
-                    fontSize: 20,
+                    fontSize: 14,
                     fontWeight: FontWeight.bold,
                     color: Colors.grey.shade800,
                   ),

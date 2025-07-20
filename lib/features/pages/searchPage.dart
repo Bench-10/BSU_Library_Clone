@@ -314,7 +314,7 @@ class _SearchPageState extends State<SearchPage> {
       backgroundColor: const Color.fromARGB(255, 247, 250, 252),
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
-        toolbarHeight: 90,
+        toolbarHeight: 70,
         backgroundColor: Color.fromARGB(255, 185, 0, 0),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -433,39 +433,38 @@ class _SearchPageState extends State<SearchPage> {
                               ),
                               margin: EdgeInsets.only(bottom: 9),
                               child: ListTile(
-                               
-                      
-
                                 subtitle: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                         Text(
-                                          book['title'] ?? 'No Title',
-                                          style: GoogleFonts.poppins(
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 19,
+                                        Expanded(
+                                          child: Wrap(
+                                            crossAxisAlignment: WrapCrossAlignment.start,
+                                            children: [
+                                              Text(
+                                                book['title'] ?? 'No Title',
+                                                style: GoogleFonts.poppins(
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 19,
+                                                ),
+                                              ),
+                                              SizedBox(width: 8),
+                                              GestureDetector(
+                                                onTap: () => _toggleBookmark(book),
+                                                child: Icon(
+                                                  Icons.star,
+                                                  color: bookmarkStatus[book['id']] == true 
+                                                    ? const Color.fromARGB(255, 226, 202, 20) 
+                                                    : const Color.fromARGB(255, 186, 186, 186),
+                                                  size: 20,
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 2,
-                                        ),
-
-                                        IconButton(
-                                          icon: Icon(
-                                            Icons.star,
-                                            color: bookmarkStatus[book['id']] == true 
-                                              ? const Color.fromARGB(255, 226, 202, 20) 
-                                              : const Color.fromARGB(255, 186, 186, 186),
-                                            size: 20,
-                                          ),
-                                          onPressed: () => _toggleBookmark(book),
-                                          tooltip: bookmarkStatus[book['id']] == true 
-                                            ? 'Remove bookmark' 
-                                            : 'Add bookmark',
                                         ),
                                       ],
-
                                     ),
 
                                     SizedBox(height: 14,),
@@ -535,6 +534,8 @@ class _SearchPageState extends State<SearchPage> {
           title: Text(
             book['title'] ?? 'Book Details',
             style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 2,
           ),
 
           content: SingleChildScrollView(

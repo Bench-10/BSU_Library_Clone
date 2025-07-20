@@ -59,29 +59,35 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 247, 250, 252),
+      resizeToAvoidBottomInset: false,
       body: Column(
         children: [
+          
           _buildHeader(),
           _buildNavBar(),
 
           Expanded(
-            child: Center(
-              child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                padding: EdgeInsets.symmetric(horizontal: 35, vertical: 30),
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 255, 255, 255),
-                  borderRadius: BorderRadius.all(Radius.circular(15)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
-                      spreadRadius: 2,
-                      blurRadius: 5,
-                      offset: Offset(2, 3),
-                    )
-                  ]
-                ),
-                width: 420,
+            child: Stack(
+              children: [
+                Positioned.fill(
+                  child: Center(
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                      padding: EdgeInsets.symmetric(horizontal: 35, vertical: 30),
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 255, 255, 255),
+                        borderRadius: BorderRadius.all(Radius.circular(15)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.2),
+                            spreadRadius: 2,
+                            blurRadius: 5,
+                            offset: Offset(2, 3),
+                          )
+                      ]
+                    ),
+                    width: 420,
+              
                 child: Column(
             mainAxisSize: MainAxisSize.min, 
             children: [
@@ -265,7 +271,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               ),
                               title: Text(
                                 'Login Failed',
-                                style: TextStyle(
+                                style: GoogleFonts.poppins(
                                   color: Colors.red,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 18,
@@ -288,7 +294,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       borderRadius: BorderRadius.circular(3),
                                     )
                                   ),
-                                  child: Text('OK'),
+                                  child: Text('Try again', style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
                                 ),
                               ],
                             );
@@ -344,10 +350,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ],
-          ),
-        ),
-              ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
+          ),
         ]
       ),
     );
@@ -355,7 +364,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget _buildHeader() {
     return SizedBox(
-      height: 90,
+      height: 110,
       child: Stack(
         fit: StackFit.expand,
         children: [
@@ -374,13 +383,14 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           Center(
             child: Container(
-              height: 75,
+              margin: EdgeInsets.only(top: 25),
+              height: 65,
               color: const Color.fromARGB(188, 185, 0, 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Container(
-                    margin: EdgeInsets.fromLTRB(30, 10, 5, 10),
+                    margin: EdgeInsets.fromLTRB(17, 10, 5, 10),
                     width: 60, 
                     decoration: BoxDecoration(
                       image: DecorationImage(
@@ -397,7 +407,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       Text(
                         widget.title,
                         style: GoogleFonts.merriweather(
-                          fontSize: 25,
+                          fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),

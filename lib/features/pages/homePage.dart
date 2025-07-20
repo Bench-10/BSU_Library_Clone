@@ -3,8 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../services/book_service.dart';
 import './searchPage.dart';
 
-
-
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
   
@@ -168,48 +166,49 @@ class _MyAppState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Library System',
-            style: GoogleFonts.poppins(
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
-            )
-          ),
+    return SingleChildScrollView(
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Library System',
+              style: GoogleFonts.poppins(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+              )
+            ),
 
-          SizedBox(height: 7,),
+            SizedBox(height: 7,),
 
-          SizedBox(
-            height: 30,
-            
-            child: Row(
-              children: [
-                Icon(Icons.home, size: 30, color: Colors.red),
+            SizedBox(
+              height: 30,
+              
+              child: Row(
+                children: [
+                  Icon(Icons.home, size: 25, color: Colors.red),
 
-                Text(
-                  'Home',
-                  style: GoogleFonts.poppins(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500
+                  Text(
+                    'Home',
+                    style: GoogleFonts.poppins(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500
+                    )
                   )
-                )
 
-              ],
+                ],
+              ),
             ),
-          ),
 
-          SizedBox(height: 35),
+            SizedBox(height: 15),
 
-          Container(
-            padding: EdgeInsets.all(9),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(8))
-            ),
+            Container(
+              padding: EdgeInsets.all(9),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(8))
+              ),
             child: Column(
                 children: [
                   Container(
@@ -373,7 +372,7 @@ class _MyAppState extends State<HomePage> {
                                       
                                       style: ElevatedButton.styleFrom(
                                         
-                                        fixedSize: Size(140, 40),
+                                        fixedSize: Size(120, 40),
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(5),  
                                         ),
@@ -396,7 +395,7 @@ class _MyAppState extends State<HomePage> {
                                     ElevatedButton(
                                       
                                       style: ElevatedButton.styleFrom(
-                                        fixedSize: Size(140, 40),
+                                        fixedSize: Size(120, 40),
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(5),  
                                         ),
@@ -426,7 +425,7 @@ class _MyAppState extends State<HomePage> {
                                   children: [
                                     ElevatedButton(
                                       style: ElevatedButton.styleFrom(
-                                        fixedSize: Size(140, 40),
+                                        fixedSize: Size(120, 40),
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(5),  
                                         ),
@@ -448,7 +447,7 @@ class _MyAppState extends State<HomePage> {
 
                                     ElevatedButton(
                                       style: ElevatedButton.styleFrom(
-                                        fixedSize: Size(140, 40),
+                                        fixedSize: Size(120, 40),
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(5),   
                                         ),
@@ -543,24 +542,16 @@ class _MyAppState extends State<HomePage> {
                             ),
 
                           )
-
-                          
-
                         ],
                       ),
                     ),
                   ),
-                  
-
-                ],
+              ],
             )
           ),
-
-          
-
         ],
       ),
-
+    ),
     );
           
   
